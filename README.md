@@ -91,3 +91,76 @@ Project developed by:
 > No flying shoes were harmed during testing.
 
 ---
+
+## 🧭 2. Maze Blueprint (Challenge Design)
+
+### 📋 Executive Summary
+
+**Project Objective:**  
+Demonstrate how a combination of **social engineering** and **vulnerability exploitation** can lead to the full compromise of a corporate network containing sensitive information.
+
+**Methodology:**  
+This simulation will employ a blend of techniques including **OSINT (passive reconnaissance), phishing, malware deployment, privilege escalation,** and **lateral movement** within the network.
+
+**Impact of the Attack:**  
+Total compromise of the company's internal security, unauthorized access to confidential data, and potential **data exfiltration**.
+
+**Conclusion:**  
+The simulation will highlight:
+- The critical role of the **human factor** in cybersecurity.  
+- The importance of **cybersecurity awareness** among employees.  
+- The need for **stronger technical controls** in enterprise environments.
+
+---
+
+### 🏁 Scenarios and Flags
+
+Each stage of the attack contains **checkpoints (flags)** that participants must discover to track progress:
+
+1. **Access to Manolo’s machine**  
+   ➤ `flag1.txt` located on his desktop.
+
+2. **Pivoting to the security camera feed**  
+   ➤ An **image revealing a password** used as a flag.
+
+3. **Access to Lucy’s laptop**  
+   ➤ `flag2.txt` in Lucy’s user directory.
+
+4. **Final access to the secret blueprints**  
+   ➤ `flag3.txt` found in `/var/secret/no_es_aqui/`.
+
+---
+
+## 🎮 3. Attack Simulation on TryHackMe
+
+To enhance immersion, this simulation is designed to run on **TryHackMe**, using interactive Markdown-based guides for attackers. The experience follows a narrative format:
+
+### 🏢 Introduction
+- Background story of **The Server Sharkers** tech company.
+- Introduction to **Manolo**, an employee addicted to online horse betting.
+  
+### 🕵️‍♂️ Phase 1: OSINT
+- Perform passive reconnaissance on Manolo (social media, habits, interests).
+- Identify attack vectors based on collected data.
+
+### 🎯 Phase 2: Phishing
+- Launch a phishing campaign using **GoPhish**.
+- Redirect Manolo to a fake betting site.
+- Inject a **trojan** to gain remote access to his machine.
+
+### 📷 Phase 3: Camera Exploitation
+- Identify and pivot to an open IP tied to a surveillance camera.
+- Capture a snapshot showing **Lucy’s laptop** and a password note.
+
+### 🖥️ Phase 4: Gaining Lucy’s Credentials
+- Use the password from the camera image to access Lucy's system.
+- Pivot further into the internal network.
+
+### 🧠 Final Phase: Privilege Escalation & Data Extraction
+- Exploit privilege escalation vulnerabilities.
+- Access the restricted folder: `/var/secret/no_es_aqui/`.
+- Retrieve the final flag containing the **flying shoe blueprints**.
+
+---
+
+
