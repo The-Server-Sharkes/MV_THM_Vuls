@@ -8,7 +8,7 @@ netDNS="8.8.8.8"
 hostname=""
 
 #Paquetes a instalar
-paquetes=("openssh-server" "git" )
+paquetes=("openssh-server" "nginx" )
 
 #Comprovar si el script se ejecuta como root
 if [ "$(id -u)" -ne 0 ]; then
@@ -52,8 +52,6 @@ for paquete in "${paquetes[@]}"; do
     sudo apt-get remove --purge -y "$paquete" 
 done
 
-# Instalacion de los paquetes
-apt-get install openssh-server -s
 
 # Instala los paquetes
 for paquete in "${paquetes[@]}"; do
@@ -63,9 +61,29 @@ done
 
 
 #Confiuracion servicios
+##Configuracion ssh
+rm /etc/ssh/sshd_config
+cp ./$(dirname "$0")/configuraciones/sshd_config /etc/ssh/sshd_config
 
-#HAbilitar i levantar servicios
+##Configuracion nginx
+rm /etc/nginx/sites-enabled/default
+cp $(dirname "$0")/configuraciones/nginx/ipcam /etc/nginx/sites-available/
+cp $(dirname "$0")/configuraciones/nginx/home /etc/nginx/sites-available/
+mkdir -p /var/www/ipcam
+mkdir -p /var/www/home
+ln -s /etc/nginx/sites-available/ipcam /etc/nginx/sites-enabled/ipcam
+ln -s /etc/nginx/sites-available/home /etc/nginx/sites-enabled/home
+sudo chown -R www-data:www-data /var/www/ipcam
+sudo chown -R www-data:www-data /var/www/home
+sudo chmod -R 755 /var/www/ipcam
+sudo chmod -R 755 /var/www/home
+
+
+
+#HAbilitar y levantar servicios
 service ssh enable
+service nginx enable
+service nginx start
 service ssh start
 
 #Configuracion cortafuegos

@@ -10,6 +10,6 @@ iptables -F
 iptables -A INPUT -i $interfaz -p tcp --dport 22 -j ACCEPT
 #Reglas servidor web
 iptables -A INPUT -i $interfaz -p tcp --dport 80 -j ACCEPT
-iptables -A INPUT -i $interfaz -p tcp --dport 443 -j ACCEPT
+
 
 iptables -S

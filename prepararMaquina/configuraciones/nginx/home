@@ -1,0 +1,12 @@
+server {
+    listen 80;
+    server_name sharkes.com www.sharkes.com;
+
+    root /var/www/home;
+    index index.html index.htm;
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+}
+

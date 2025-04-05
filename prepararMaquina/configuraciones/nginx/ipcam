@@ -1,0 +1,12 @@
+server {
+    listen 80;
+    server_name ipcam.sharkes.com www.ipcam.sharkes.com;
+
+    root /var/www/ipcam;
+    index index.html index.htm;
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+}
+
