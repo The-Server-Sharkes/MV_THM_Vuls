@@ -1,9 +1,9 @@
 #!/bin/bash
 
 netInterfaz="eth0"
-netIP=""
-netGW=""
-netMASK=""
+netIP="192.168.47.10"
+netGW="192.168.47.254"
+netMASK="255.255.255.0"
 netDNS="8.8.8.8"
 hostname=""
 
@@ -70,6 +70,3 @@ service ssh start
 
 #Configuracion cortafuegos
 ./$(dirname "$0")/configuraciones/reglasFirewall.sh $netInterfaz
-
-# pruebaaa!!! 
-ping 1.1.1..1
