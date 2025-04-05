@@ -69,7 +69,7 @@ service ssh enable
 service ssh start
 
 #Configuracion cortafuegos
-.$(dirname "$0")/configuraciones/reglasFirewall.sh $netInterfaz
+./$(dirname "$0")/configuraciones/reglasFirewall.sh $netInterfaz
 
 # pruebaaa!!! 
 ping 1.1.1..1
