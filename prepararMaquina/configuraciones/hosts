@@ -1,4 +1,4 @@
-# Añadir al archivo hosts
+# Añadir al archivo hosts para el correcto funcionamiento de los vhosts
 # Linux "/etc/hosts"
 # Windows "C:\Windows\system32\drivers\etc\hosts"
 
