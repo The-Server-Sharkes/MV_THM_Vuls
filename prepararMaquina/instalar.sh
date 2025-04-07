@@ -65,6 +65,9 @@ done
 rm /etc/ssh/sshd_config
 cp ./$(dirname "$0")/configuraciones/sshd_config /etc/ssh/sshd_config
 
+#Copy banner
+cp ./$(dirname "$0")/configuraciones/banner /etc/issue.net
+
 ##Configuracion nginx
 rm /etc/nginx/sites-enabled/default
 cp $(dirname "$0")/configuraciones/nginx/ipcam /etc/nginx/sites-available/

@@ -1,0 +1,33 @@
+#Creacion del servidor VPN
+
+apt install openvpn easy-rsa -y
+make-cadir ~/openvpn-ca
+cd openvpn-ca
+# Editar el archivo vars
+nano vars
+# Editar el archivo vars
+# Cambiar las siguientes líneas:
+# export KEY_COUNTRY="ES"
+# export KEY_PROVINCE="M"
+# export KEY_CITY="Madrid"
+# export KEY_ORG="MiOrganizacion"   
+# export KEY_OU="Sharkers"
+# export KEY_EMAIL="server"
+
+# Edito el KEY_NAME
+# export KEY_NAME="server"
+# export KEY_CN="server"
+# export KEY_NAME="server"
+# export KEY_CN="server"
+# export KEY_NAME="server"
+
+source vars # Cargar las variables
+./clean-all # Limpiar el directorio de las llaves
+./build-ca # Crear la CA
+ nano -c openssl-1.0.cnf
+# Cambiar la siguiente línea:
+# default_days = 3650 
+# Descomentar 198 220
+
+# generar el certificado del servidor
+./build-key-server server
