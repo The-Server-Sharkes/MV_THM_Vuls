@@ -37,3 +37,7 @@ source vars # Cargar las variables
 openvpn --genkey --secret keys/ta.key
 # Copiar los certificados y claves al directorio de OpenVPN
 cd keys
+sudo cp ca.crt ca.key dh2048.pem ta.key server.crt server.key /etc/openvpn
+# Copiar el archivo de configuración del servidor
+sudo cp /usr/share/doc/openvpn/examples/sample-config-files/server.conf.gz /etc/openvpn 
+
