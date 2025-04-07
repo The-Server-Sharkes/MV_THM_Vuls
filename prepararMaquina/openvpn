@@ -31,3 +31,9 @@ source vars # Cargar las variables
 
 # generar el certificado del servidor
 ./build-key-server server
+# Generar el certificado Diffie-Hellman
+./build-dh
+# Generar el certificado HMAC
+openvpn --genkey --secret keys/ta.key
+# Copiar los certificados y claves al directorio de OpenVPN
+cd keys
