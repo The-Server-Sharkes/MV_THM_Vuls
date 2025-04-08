@@ -91,3 +91,9 @@ service ssh start
 
 #Configuracion cortafuegos
 ./$(dirname "$0")/configuraciones/reglasFirewall.sh $netInterfaz
+
+
+## Subir la maquina a thm
+## Exportar la maquina a ovf
+## www.tryhackme.com/upload
+##
