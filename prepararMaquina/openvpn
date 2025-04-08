@@ -91,7 +91,7 @@ Enter # para aceptar la firma
 # copiar los certificados y claves al cliente por ssh  
 cd keys
 scp ca.crt ta.key cliente.crt cliente.key user@ip:/home/user/ # copiar los certificados y claves al cliente
-# 
+#
 
 # crear archivo de configuración de openvpn 
 mousepad
