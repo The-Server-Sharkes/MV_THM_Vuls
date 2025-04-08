@@ -27,7 +27,7 @@ source vars # Cargar las variables
  nano -c openssl-1.0.cnf
 # Cambiar la siguiente línea:
 # default_days = 3650 
-# Descomentar 198 220
+# Descomentar 198 220 si da error
 
 # generar el certificado del servidor
 ./build-key-server server
@@ -40,4 +40,74 @@ cd keys
 sudo cp ca.crt ca.key dh2048.pem ta.key server.crt server.key /etc/openvpn
 # Copiar el archivo de configuración del servidor
 sudo cp /usr/share/doc/openvpn/examples/sample-config-files/server.conf.gz /etc/openvpn 
+sudo gzip -d /etc/openvpn/server.conf.gz | tee /etc/openvpn/server.conf # tee verifica que el archivo se haya descomprimido correctamente
+# Editar el archivo de configuración del servidor
+sudo nano /etc/openvpn/server.conf
 
+# Configuracon del archivo de configuración
+ca ca.crt
+cert server.crt
+dev tun
+dh dh2048.pem
+server ip mask # confiurar ne direccon de red
+push "redirect-gateway def1 bypass-dhcp"
+keeplive 10 120
+chipher AES-256-CBC # cambiar el cifrado
+lts-auth ta.key 0 # 
+persist-key
+persist-tun 
+user nobody
+group nogroup
+satus openvpn-status.log
+log-append /var/log/
+verb 3
+
+
+# Configuracain sysctl.conf
+nano /etc/sysctl.conf
+net.ipv4.ip_forward=1 # para desactivar el reenvio de paquetes  
+sudo sysctl -p # para aplicar los cambios
+# Configurar el firewall    
+ufw allow 1194/udp # abrir el puerto 1194
+# Configurar el firewall iptables
+sudo iptables -t nat -A POSTRUTING -s 10.8.0.0./24 -o et0 -j MASQUERADE # creamos una regla de NAT
+sudo apt install iptables-persistent -y # instalar el paquete para guardar las reglas
+# Aolicar el en ipv4 y ipv6
+sudo netfilter-persistent save
+sudo sh -c "iptables-save > /etc/iptables/rules.v4"
+sudo sh -c "ip6tables-save > /etc/iptables/rules.v6"
+sudo service iptables-persistent restart # reiniciar el servicio
+sudo service openvpn enable # habilitar el servicio
+
+
+#  llaves clientes 
+# ~/openvpn-ca 
+# Vamos a generar nuevas variables como en el servidor 
+source vars
+./build-key cliente
+Enter # para aceptar la firma
+# 
+
+# copiar los certificados y claves al cliente por ssh  
+cd keys
+scp ca.crt ta.key cliente.crt cliente.key user@ip:/home/user/ # copiar los certificados y claves al cliente
+# 
+
+# crear archivo de configuración de openvpn 
+mousepad
+client
+dev tun
+proto udp
+remote IP_SERVIDOR 1194
+resolv-retry infinite
+nobind
+persist-key
+persist-tun
+ca ca.crt
+cert kali.key
+key client.key
+tls-auth ta.key
+chiper AES-256-CBS
+verb 3
+
+#Momento de cruzar los dedos y que todo haya hido bien
