@@ -1,0 +1,44 @@
+sudo cp /home/vagrant/game/The_Server_Sharkers/videomotion/segurida.mp4 /var/www/html
+
+y
+
+html 
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Video</title>
+    <style>
+        /* Estilo para centrar el contenido */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        video {
+            display: block;
+            margin-top: 20px;
+            border: 3px solid #333;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h1>Este es mi video</h1>
+        <video width="640" height="360" controls autoplay>
+            <source src="/segurida.mp4" type="video/mp4">
+            Tu navegador no soporta el formato de video.
+        </video>
+    </div>
+</body>
+</html>

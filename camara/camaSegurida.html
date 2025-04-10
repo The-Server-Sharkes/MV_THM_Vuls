@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Video</title>
+    <style>
+        /* Estilo para centrar el contenido */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        /* Estilos para el contenedor del video */
+        #video-container {
+            display: none; /* El video está oculto inicialmente */
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        video {
+            border: 3px solid #333;
+        }
+
+        /* Estilos para el formulario */
+        .form-container {
+            text-align: center;
+        }
+
+        .form-container input[type="password"] {
+            padding: 10px;
+            margin: 10px;
+            font-size: 16px;
+        }
+
+        .form-container button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="form-container" class="form-container">
+        <h1>Introduce la contraseña para ver el video</h1>
+        <form onsubmit="return checkPassword()">
+            <input type="password" id="password" placeholder="Introduce la contraseña" required>
+            <button type="submit">Acceder</button>
+        </form>
+    </div>
+
+    <div id="video-container">
+        <h1>Este es mi video</h1>
+        <video width="640" height="360" controls autoplay>
+            <source src="/segurida.mp4" type="video/mp4">
+            Tu navegador no soporta el formato de video.
+        </video>
+    </div>
+
+    <script>
+        // Función para validar la contraseña
+        function checkPassword() {
+            var password = document.getElementById("password").value;
+
+            // Contraseña correcta: "a"
+            if (password === "a") {
+                document.getElementById("form-container").style.display = "none"; // Oculta el formulario
+                document.getElementById("video-container").style.display = "block"; // Muestra el video
+                return false; // Evita que el formulario se envíe
+            } else {
+                alert("Contraseña incorrecta. Intenta nuevamente.");
+                return false;
+            }
+        }
+    </script>
+</body>
+</html>
