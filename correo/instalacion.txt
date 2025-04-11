@@ -1,0 +1,44 @@
+sudo apt update
+sudo apt install postfix
+
+sudo nano /etc/postfix/main.cf
+
+leer configuracion.txt
+
+sudo systemctl restart postfix
+sudo service postfix restart
+sudo service postfix status
+
+sudo apt update
+sudo apt install mailutils
+
+Crear el archivo .procmailrc: Ejecuta los siguientes comandos para crear y configurar el archivo .procmailrc:
+touch /home/vagrant/.procmailrc
+
+sudo nano /home/vagrant/.procmailrc
+dentro se coloca 
+:0:
+inbox
+
+
+sudo chmod 600 /home/vagrant/.procmailrc
+sudo chown vagrant:vagrant /home/vagrant/.procmailrc
+
+mkdir /home/vagrant/inbox
+sudo chown vagrant:vagrant /home/vagrant/inbox
+
+sudo nano /etc/hosts
+127.0.1.1       ubuntu.local
+
+sudo service postfix restart
+sudo service postfix status
+
+ping ubuntu.local
+
+echo "Este es un correo de prueba" | mail -s "Prueba Postfix" vagrant@ubuntu.local
+echo "Este es un correo de prueba" | mail -s "Prueba Postfix" usuario el name@ubuntu.local
+
+ls /home/vagrant/inbox
+cat /home/vagrant/inbox/msg.*
+
+

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Simulación de Infiltración</title>
+    <style>
+        body {
+            background-color: black;
+            color: limegreen;
+            font-family: monospace;
+            margin: 0;
+            padding: 20px;
+        }
+
+        #countdown {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        #log {
+            background-color: #111;
+            border: 2px solid #0f0;
+            padding: 15px;
+            height: 300px;
+            overflow-y: auto;
+            white-space: pre-line;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="countdown">Tiempo restante: <span id="timer">10:00</span></div>
+    <div id="log"></div>
+
+    <script>
+        // Temporizador
+        let minutes = 10;
+        let seconds = 0;
+
+        function updateTimer() {
+            const timerDisplay = document.getElementById("timer");
+            timerDisplay.innerHTML = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            if (minutes === 0 && seconds === 0) {
+                addLog("[FINALIZADO] ¡Tiempo agotado! La intrusión fue completada.");
+                return;
+            }
+            if (seconds === 0) {
+                minutes--;
+                seconds = 59;
+            } else {
+                seconds--;
+            }
+            setTimeout(updateTimer, 1000);
+        }
+
+        // Simulación de logs en vivo
+        const logs = [
+            "[INFO] 2025-04-11 02:12:03 - Usuario desconocido accedió desde IP: 192.168.0.54",
+            "[WARNING] 2025-04-11 02:13:47 - Se intentó listar /etc/shadow",
+            "[ALERT] 2025-04-11 02:14:08 - Transferencia sospechosa detectada a 10.0.0.23",
+            "[WARNING] 2025-04-11 02:15:21 - Usuario 'lucy' accedió a la cámara simulada",
+            "[CRITICAL] 2025-04-11 02:16:59 - Extracción de /home/directo en proceso...",
+            "[INFO] 2025-04-11 02:17:31 - Estableciendo conexión inversa...",
+            "[WARNING] 2025-04-11 02:18:10 - Descarga de archivo confidencial...",
+            "[WARNING] 2025-04-11 02:18:21 - Descarga de archivo confidencial...",
+            "[PASSWORD] 2025-04-11 02:18:31 - Descarga de archivo confidencial...oxfbyhjdv123",
+            "[ALERT] 2025-04-11 02:18:35 - Interferencia en logs detectada...",
+            "[ALERT] 2025-04-11 02:18:43 - Interferencia en logs detectada...",
+            "[ALERT] 2025-04-11 02:18:48 - Interferencia en logs detectada...",
+            "[ALERT] 2025-04-11 02:18:53 - Interferencia en logs detectada..."
+        ];
+
+        let currentLog = 0;
+        function addLog(log) {
+            const logContainer = document.getElementById("log");
+            logContainer.innerHTML += log + "\n";
+            logContainer.scrollTop = logContainer.scrollHeight;
+        }
+
+        function simulateLogs() {
+            if (currentLog < logs.length) {
+                addLog(logs[currentLog]);
+                currentLog++;
+                setTimeout(simulateLogs, 2000); // Cada 2 segundos se muestra un nuevo log
+            }
+        }
+
+        updateTimer();
+        simulateLogs();
+    </script>
+
+</body>
+</html>
