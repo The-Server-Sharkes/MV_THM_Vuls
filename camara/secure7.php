@@ -1,8 +1,7 @@
 <?php
 $correct_password = "a";
 $access_granted = false;
-$log_file = 'access_log.txt'; // El archivo de log
-
+$log_file = 'access_log.txt'; 
 // Registra el intento fallido
 function logAttempt($message) {
     global $log_file;
@@ -14,7 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($_POST["password"] === $correct_password) {
         $access_granted = true;
     } else {
-        $error = "  Contraseña incorrecta.";
+        $error = "❌ Contraseña incorrecta.";
         logAttempt("Intento fallido con contraseña: " . $_POST["password"]);
     }
 }
@@ -24,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>��� Hacker Access Panel</title>
+    <title>💀 Hacker Access Panel</title>
     <style>
         body {
             background-color: #0f0f0f;
@@ -72,6 +71,75 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         .fade-in {
-                                                                                                                                                                                                                                [ Read 148 lines ]
-^G Get Help                                                                  ^O WriteOut                                                                  ^R Read File                                                                 ^Y Prev Page                                                                 ^K Cut Text                                                                  ^C Cur Pos
-^X Exit  
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Botones falsos de cámaras */
+        .camera-buttons {
+            margin-top: 20px;
+        }
+
+        .camera-buttons button {
+            background-color: #0f0f0f;
+            color: #00ff00;
+            border: 1px solid #00ff00;
+            padding: 10px;
+            margin: 5px;
+            cursor: pointer;
+        }
+
+        .camera-buttons button:hover {
+            background-color: #00ff00;
+            color: #0f0f0f;
+        }
+
+        /* Mostrar/ocultar el formulario */
+        .form-container {
+            display: none;
+        }
+
+        .show-form {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+<?php if ($access_granted): ?>
+    <div class="fade-in">
+        <h1>📹 Acceso concedido - Reproduciendo video secreto</h1>
+        <video width="720" height="405" controls autoplay>
+            <source src="segurida.mp4" type="video/mp4">
+            Tu navegador no soporta el video.
+        </video>
+
+        
+        <div class="camera-buttons">
+            <button onclick="window.location.href='infiltracion.html';">🔴 Control de cámara 1 (Infiltración)</button>
+            <button>Control cámara</button>
+            <button onclick="showLoginForm()">🔑 Volver a ingresar la contraseña</button>
+        </div>
+    </div>
+<?php else: ?>
+    <h1>🔐 Acceso restringido</h1>
+    <form method="POST">
+        <input type="password" name="password" placeholder="Contraseña de acceso" required>
+        <br>
+        <button type="submit">INGRESAR</button>
+        <?php if (isset($error)) echo "<div class='error'>$error</div>"; ?>
+    </form>
+<?php endif; ?>
+
+<script>
+    function showLoginForm() {
+        window.location.href = ''; 
+    }
+</script>
+
+</body>
+</html>
