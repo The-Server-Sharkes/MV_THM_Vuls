@@ -16,6 +16,7 @@ Crear el archivo .procmailrc: Ejecuta los siguientes comandos para crear y confi
 touch /home/vagrant/.procmailrc
 
 sudo nano /home/vagrant/.procmailrc
+nano ~/.procmailrc
 dentro se coloca 
 :0:
 inbox
@@ -41,4 +42,8 @@ echo "Este es un correo de prueba" | mail -s "Prueba Postfix" usuario el name@ub
 ls /home/vagrant/inbox
 cat /home/vagrant/inbox/msg.*
 
+para enviar correo de prueba 
+sendEmail -f prueba@kali.com -t vagrant@ubuntu.local -u "Hola" -m "Probando para enviar correo Freddy" -s 192.168.0.31 -o tls=no
 
+
+cat ~/procmail.log

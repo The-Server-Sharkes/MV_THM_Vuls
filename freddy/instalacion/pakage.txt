@@ -1,0 +1,38 @@
+Instalacion de apache 
+
+Server version: Apache/2.4.7 (Ubuntu)
+Server built:   Apr  3 2019 18:04:25
+
+Instalacion de php
+
+PHP 5.5.9-1ubuntu4.29 (cli) (built: Apr 22 2019 18:33:52) 
+Copyright (c) 1997-2014 The PHP Group
+Zend Engine v2.5.0, Copyright (c) 1998-2014 Zend Technologies
+    with Zend OPcache v7.0.3, Copyright (c) 1999-2014, by Zend Technologies
+
+sudo apt update
+sudo apt install postfix
+
+
+
+
+
+page web
+https://reoobot.github.io/TheServerSharkers/
+
+linkedinn
+site:linkedin.com theserversharker/
+
+carrera 
+https://reoobot.github.io/TheServerSharkers/carrera
+
+correo falso
+manologomez123@mail.com
+
+codigo fuente 
+https://reoobot.github.io/TheServerSharkers/
+
+
+
+
+

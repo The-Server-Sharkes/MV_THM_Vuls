@@ -1,0 +1,50 @@
+✅ ¿Qué es sendemail?
+Es una herramienta de línea de comandos para enviar correos electrónicos 
+usando SMTP. Muy útil en scripts o para pruebas de envío de correos desde terminal.
+
+🛠️ Paso 1: Instalar sendemail (si no lo tienes)
+Primero, abre tu terminal en Kali y escribe:
+
+📤 Paso 2: Enviar un correo
+Este es un ejemplo de cómo enviar un correo usando Gmail:
+sendemail -f tuemail@gmail.com \
+          -t destino@correo.com \
+          -u "Asunto del correo" \
+          -m "Este es el cuerpo del mensaje" \
+          -s smtp.gmail.com:587 \
+          -xu tuemail@gmail.com \
+          -xp tu_contraseña \
+          -o tls=yes
+
+
+Explicación rápida:
+-f: Correo del remitente
+
+-t: Correo del destinatario
+
+-u: Asunto
+
+-m: Mensaje
+
+-s: Servidor SMTP y puerto (Gmail en este caso)
+
+-xu: Usuario (correo)
+
+-xp: Contraseña del correo
+
+-o tls=yes: Usa TLS (recomendado)
+
+
+⚠️ Advertencia
+Si usas Gmail, puede que tengas que activar el acceso a aplicaciones menos seguras o usar una contraseña de aplicación, ya que Google bloquea accesos sospechosos.
+
+🧪 Ejemplo completo
+
+sendemail -f hacker@ejemplo.com \
+          -t victima@correo.com \
+          -u "¡Hola desde Kali!" \
+          -m "Este es un correo de prueba enviado desde Kali Linux usando sendemail." \
+          -s smtp.gmail.com:587 \
+          -xu hacker@ejemplo.com \
+          -xp tu_contraseña \
+          -o tls=yes

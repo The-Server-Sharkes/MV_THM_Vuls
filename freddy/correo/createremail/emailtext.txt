@@ -1,0 +1,27 @@
+nano ~/inbox/ejecutar.sh
+
+
+#!/bin/bash
+touch /tmp/hackeado.txt
+echo "[+] Ejecutado touch hackeado.txt" >> ~/inbox/resultado.txt
+
+
+chmod +x ~/inbox/ejecutar.sh
+
+Abre el archivo de configuración de procmail
+
+nano ~/.procmailrc
+
+
+LOGFILE=$HOME/procmail.log
+MAILDIR=$HOME/inbox
+DEFAULT=$MAILDIR/
+
+:0
+* ^Subject: EjecutarScript
+| $HOME/inbox/ejecutar.sh
+
+
+enviar el email 
+
+sendEmail -f ataque@maligno.com -t vagrant@ubuntu.local -u "EjecutarScript" -m "Haz esto" -s 192.168.0.31 -o tls=no

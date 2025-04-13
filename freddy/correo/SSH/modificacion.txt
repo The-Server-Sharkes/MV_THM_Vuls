@@ -1,0 +1,16 @@
+Crea un archivo, por ejemplo, presentation.txt:
+
+echo "¡Bienvenido a [Nombre de la Empresa]!" > ~/presentation.txt
+echo "Nuestra misión es [Descripción breve de la empresa]." >> ~/presentation.txt
+
+
+Abre el archivo ~/.bashrc o ~/.bash_profile:
+nano ~/.bashrc
+
+Al final de este archivo, agrega el siguiente código para mostrar el archivo de presentación cada vez que inicies sesión por SSH:
+
+# Mostrar presentación de la empresa al iniciar sesión SSH
+if [ -f ~/presentation.txt ]; then
+  cat ~/presentation.txt
+fi
+
