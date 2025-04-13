@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Acceso Restringido</title>
+  <style>
+    body {
+      background-color: #000;
+      color: #00ff00;
+      font-family: 'Courier New', Courier, monospace;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    h1 {
+      font-size: 3rem;
+      border: 2px solid #00ff00;
+      padding: 20px;
+      animation: flicker 1.5s infinite alternate;
+    }
+
+    p {
+      font-size: 1.2rem;
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    @keyframes flicker {
+      from {
+        opacity: 1;
+      }
+      to {
+        opacity: 0.3;
+      }
+    }
+
+    .terminal {
+      border: 1px solid #00ff00;
+      padding: 15px;
+      width: 80%;
+      max-width: 600px;
+      margin-top: 30px;
+      background: rgba(0, 255, 0, 0.1);
+    }
+
+    .blink {
+      animation: blink 1s step-start 0s infinite;
+    }
+
+    @keyframes blink {
+      50% {
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>⚠️ ACCESO RESTRINGIDO ⚠️</h1>
+  <p>Este sistema está monitoreado. Cualquier intento de acceso no autorizado será registrado.</p>
+
+  <div class="terminal">
+    > Ingresando al sistema... <span class="blink">█</span>
+  </div>
+</body>
+</html>
+

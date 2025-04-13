@@ -33,6 +33,9 @@ codigo fuente
 https://reoobot.github.io/TheServerSharkers/
 
 
+cambio de fichero
+sudo mv /var/www/html/index.html /var/www/html/index2.html
+
 
 
 
