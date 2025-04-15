@@ -1,9 +1,8 @@
 <?php
 $correct_password = "a";
 $access_granted = false;
-$log_file = 'access_log.txt'; // El archivo de log
+$log_file = 'access_log.txt'; // Archivo para registrar intentos
 
-// Registra el intento fallido
 function logAttempt($message) {
     global $log_file;
     $timestamp = date('Y-m-d H:i:s');
@@ -24,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>  Hacker Access Panel</title>
+    <title>Hacker Access Panel</title>
     <style>
         body {
             background-color: #0f0f0f;
@@ -80,7 +79,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             to { opacity: 1; }
         }
 
-        /* Botones falsos de cámaras */
         .camera-buttons {
             margin-top: 20px;
         }
@@ -98,64 +96,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             background-color: #00ff00;
             color: #0f0f0f;
         }
-
-        /* Mostrar/ocultar el formulario */
-        .form-container {
-            display: none;
-        }
-
-        .show-form {
-            display: block;
-        }
     </style>
 </head>
 <body>
 
 <?php if ($access_granted): ?>
     <div class="fade-in">
-        <h1>  Acceso concedido - Reproduciendo video secreto</h1>
+        <h1>✅ Acceso concedido - Reproduciendo video secreto</h1>
         <video width="720" height="405" controls autoplay>
             <source src="segurida.mp4" type="video/mp4">
             Tu navegador no soporta el video.
         </video>
 
-        <!-- Botones para controlar cámaras y redirigir -->
         <div class="camera-buttons">
-            <button onclick="window.location.href='infiltracion.html';">  Control de cámara 1</button>
-            <button>  Control cámara 2</button>
-            <button onclick="showLoginForm()">  Control cámara 3</button>
+            <button onclick="window.location.href='infiltracion.html';">Control de cámara 1</button>
+            <button>Control cámara 2</button>
+            <button onclick="window.location.reload();">Control cámara 3</button>
         </div>
     </div>
 <?php else: ?>
-    <h1>  Acceso restringido</h1>
+    <h1>🔒 Acceso restringido</h1>
     <form method="POST">
         <input type="password" name="password" placeholder="Contraseña de acceso" required>
         <br>
         <button type="submit">INGRESAR</button>
         <?php if (isset($error)) echo "<div class='error'>$error</div>"; ?>
     </form>
-        <input type="password" name="password" placeholder="Contraseña de acceso" required>
-        <br>
-        <button type="submit">INGRESAR</button>
-        <input type="password" name="password" placeholder="Contraseña de acceso" required>
-        <br>
-        <input type="password" name="password" placeholder="Contraseña de acceso" required>
-        <input type="password" name="password" placeholder="Contraseña de acceso" required>
-        <input type="password" name="password" placeholder="Contraseña de acceso" required>
-        <input type="password" name="password" placeholder="Contraseña de acceso" required>
-        <input type="password" name="password" placeholder="Contraseña de acceso" required>
-        <br>
-        <button type="submit">INGRESAR</button>
-        <?php if (isset($error)) echo "<div class='error'>$error</div>"; ?>
-    </form>
 <?php endif; ?>
-
-<script>
-    // Función para mostrar el formulario de ingreso
-    function showLoginForm() {
-        window.location.href = ''; // Recarga la página actual para mostrar el formulario
-    }
-</script>
 
 </body>
 </html>

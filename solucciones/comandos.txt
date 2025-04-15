@@ -1,0 +1,22 @@
+gobuster dir -u http://theserversharkers.io/ -w /usr/share/wordlists/dirb/common.txt -t 30
+
+esta es mejo
+gobuster dir -u http://theserversharkers.io/ -w /usr/share/wordlists/dirb/big.txt -x php,html,txt,mp4 -t 30
+
+gobuster dns -d theserversharkers.io -w /ruta/a/tu/diccionario.txt -t 20
+
+gobuster dns -d theserversharkers.io -w ~/mis_subdominios.txt -t 20
+
+
+
+
+dig ab.theserversharkers.io
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,26 @@
+sudo mkdir -p /var/www/ab_site
+
+sudo cp /var/www/secure7.php /var/www/ab_site/
+
+sudo nano /etc/apache2/sites-available/ab.theserversharkers.io.conf
+
+<VirtualHost *:80>
+    ServerName ab.theserversharkers.io
+    DocumentRoot /var/www/ab_site
+
+    <Directory /var/www/ab_site>
+        Options -Indexes +FollowSymLinks
+        AllowOverride None
+        Require all granted
+    </Directory>
+
+    ErrorLog ${APACHE_LOG_DIR}/ab_error.log
+    CustomLog ${APACHE_LOG_DIR}/ab_access.log combined
+</VirtualHost>
+
+sudo a2ensite ab.theserversharkers.io.conf
+
+sudo systemctl reload apache2
+
+/etc/hosts
+192.168.0.31  ab.theserversharkers.io
