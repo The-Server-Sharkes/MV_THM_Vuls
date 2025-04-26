@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Briefing de Misión</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: url('1.jpeg') no-repeat center center fixed;
+      background-size: cover;
+      font-family: 'Courier New', Courier, monospace;
+      color: #00ff00;
+      overflow: hidden;
+    }
+    .container {
+      position: absolute;
+      top: 10%;
+      left: 5%;
+      width: 90%;
+      height: 80%;
+      overflow-y: auto;
+      background: rgba(55, 51, 51, 0.6);
+      padding: 20px;
+      border-radius: 10px;
+    }
+    .line {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 0.5s forwards;
+    }
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .button {
+      margin-top: 30px;
+      padding: 15px 30px;
+      font-size: 20px;
+      color: white;
+      background-color: #00aa00;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .button:hover {
+      background-color: #007700;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container" id="scriptContainer">
+  <!-- Las líneas del guion se agregarán aquí -->
+</div>
+
+<script>
+  const lines = [
+    "Agente, tu misión comienza ahora.",
+    "Debes completar cada fase para capturar la FLAG final.",
+    "",
+    "FASE 1: Reconocimiento.",
+    "Usa técnicas de OSINT para recolectar información del objetivo.",
+    "",
+    "FASE 2: Ataque de Ingeniería Social.",
+    "Lanza una campaña de phishing para obtener credenciales.",
+    "",
+    "FASE 3: Ingreso a la máquina.",
+    "Accede como el usuario 'manolo' utilizando la información obtenida.",
+    "Exploita el acceso y analiza el video de la cámara de seguridad.",
+    "",
+    "FASE 4: Escalada de Privilegios.",
+    "Obtén la contraseña de 'Lucy'.",
+    "",
+    "FASE 5: Acceso directo.",
+    "Sustrae la clave de Directorio y accede a la ubicación secreta.",
+    "",
+    "FASE FINAL: Captura de la FLAG.",
+    "Encuentra la FLAG oculta en el directorio especial.",
+    "",
+    "Cada decisión cuenta. Buena suerte, agente.",
+  ];
+
+  const container = document.getElementById('scriptContainer');
+
+  let index = 0;
+
+  function addLine() {
+    if (index < lines.length) {
+      const line = document.createElement('div');
+      line.className = 'line';
+      line.style.animationDelay = (index * 0.7) + 's'; // Más rápido
+      line.textContent = lines[index];
+      container.appendChild(line);
+      index++;
+      setTimeout(addLine, 700); // Más rápido
+    } else {
+      const button = document.createElement('a');
+      button.href = "http://127.0.0.1:5500/mision.html";
+      button.className = 'button';
+      button.textContent = "Comenzar Misión";
+      container.appendChild(button);
+    }
+  }
+
+  window.onload = () => {
+    addLine();
+  };
+</script>
+
+</body>
+</html>

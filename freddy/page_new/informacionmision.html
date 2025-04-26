@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bienvenida TryHackMe</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: url('2.webp') no-repeat center center fixed;
+      background-size: cover;
+      font-family: 'Courier New', Courier, monospace;
+      color: #00ff00;
+      overflow: hidden;
+    }
+    .container {
+      position: absolute;
+      top: 10%;
+      left: 5%;
+      width: 90%;
+      height: 80%;
+      overflow-y: auto;
+      background: rgba(55, 51, 51, 0.6);
+      padding: 20px;
+      border-radius: 10px;
+    }
+    .line {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 0.5s forwards;
+    }
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .button {
+      margin-top: 30px;
+      padding: 15px 30px;
+      font-size: 20px;
+      color: white;
+      background-color: #00aa00;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .button:hover {
+      background-color: #007700;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container" id="scriptContainer">
+  <!-- Las líneas del guion se agregarán aquí -->
+</div>
+
+<script>
+  const lines = [
+    "Bienvenido agente...",
+    "Estás a punto de ingresar a un reto de alto nivel.",
+    "Cada decisión puede ser la diferencia entre el éxito y el fracaso.",
+    "Tus habilidades serán puestas a prueba.",
+    "Prepárate para desafiar lo que creías saber...",
+    "Este entorno es hostil, no confíes en nada.",
+    "Tu primer objetivo: infiltrarte sin ser detectado.",
+    "En la Empresa The Server Sharkers",
+    "y sustraer la flag, más importante",
+    "Recuerda: cada pista es vital.",
+    "Buena suerte, agente. Te estamos observando.",
+  ];
+
+  const container = document.getElementById('scriptContainer');
+
+  let index = 0;
+
+  function addLine() {
+    if (index < lines.length) {
+      const line = document.createElement('div');
+      line.className = 'line';
+      line.style.animationDelay = (index * 1.5) + 's'; // Espaciado entre líneas
+      line.textContent = lines[index];
+      container.appendChild(line);
+      index++;
+      setTimeout(addLine, 1500); // Tiempo entre cada línea
+    } else {
+      // Cuando termine, mostrar el botón
+      const button = document.createElement('a');
+      button.href = "http://127.0.0.1:5500/faces.html";
+      button.className = 'button';
+      button.textContent = "Entrar al reto";
+      container.appendChild(button);
+    }
+  }
+
+  window.onload = () => {
+    addLine();
+  };
+</script>
+
+</body>
+</html>

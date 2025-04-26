@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Briefing de Misión</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: url('Edificio_hacker.webp') no-repeat center center fixed;
+      /* background-color: black;
+      width: 100%; */
+      background-size: cover;
+      background-attachment: fixed;
+      background-position: center;
+      font-family: 'Courier New', Courier, monospace;
+      color: #00ff00;
+      overflow: hidden;
+    }
+    @media (min-width: 1200px) {
+  body {
+    background-size:auto; 
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: black; 
+    }
+}
+    .container {
+      position: absolute;
+      top: 10%;
+      left: 5%;
+      width: 90%;
+      height: 80%;
+      overflow-y: auto;
+      background: rgba(55, 51, 51, 0.6);
+      padding: 20px;
+      border-radius: 10px;
+    }
+    .line {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 0.5s forwards;
+    }
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .button, .submitBtn {
+      margin-top: 20px;
+      padding: 15px 30px;
+      font-size: 20px;
+      color: white;
+      background-color: #00aa00;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .button:hover, .submitBtn:hover {
+      background-color: #007700;
+    }
+    #searchForm {
+      margin-top: 30px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    #answerInput {
+      padding: 15px;
+      font-size: 20px;
+      width: 90%;
+      border-radius: 8px;
+      border: none;
+      margin-top: 15px;
+    }
+    #errorMsg {
+      color: red;
+      margin-top: 10px;
+    }
+  </style>
+  
+</head>
+<body>
+
+<div class="container" id="scriptContainer">
+  <!-- Las líneas del guion y el input se agregarán aquí -->
+</div>
+
+<script>
+    const lines = [
+      "Primero, piensa como un hacker...",
+      "¿Cómo harías una búsqueda en Google para encontrar empleados de la empresa?",
+      "Simula tu búsqueda de Google ahora:"
+    ];
+  
+    const preguntas = [
+      {
+        pregunta: "Escribe una búsqueda en Google que apunte a empleados de la empresa:",
+        respuesta: (input) => input.includes("site:linkedin.com") && input.includes("theserversharker")
+      },
+      {
+        pregunta: "¿Qué es lo más importante que has encontrado en 'Destacado'?",
+        respuesta: "https://reoobot.github.io/TheServerSharkers/carrera"
+      },
+      {
+        pregunta: "¿Qué otra URL encontraste?",
+        respuesta: "https://reoobot.github.io/TheServerSharkers/"
+      },
+      {
+        pregunta: "¿Qué hallazgo has conseguido en esta página?",
+        respuesta: 'sendEmail -f "name-remitente@kali.com" -t sharkers@localhost -u "ReverseShell" -m "Aun te estamos esperando no han cerrado las apuestas" -s "IP-Victima" -o tls=no -a'
+      },
+      {
+        pregunta: "¿Qué otro hallazgo has conseguido?",
+        respuesta: 'sendEmail -f prueba@kali.com -t sharkers@localhost -u "EnviarAdjunto" -m "Este es tu premio no te lo pierdas, apuesta ya, PREMIO DE 1000000" -s "IP_Victima" -o tls=no -a /home/vagrant/Documents/reverse_shell.sh'
+      },
+      {
+        pregunta: "¿Cuál es la letra en ASCII de la ciudad más importante de España?",
+        respuesta: "98"
+      }
+    ];
+  
+    const container = document.getElementById('scriptContainer');
+    let index = 0;
+    let currentQuestion = 0;
+  
+    function addLine() {
+      if (index < lines.length) {
+        const line = document.createElement('div');
+        line.className = 'line';
+        line.style.animationDelay = (index * 0.7) + 's';
+        line.textContent = lines[index];
+        container.appendChild(line);
+        index++;
+        setTimeout(addLine, 700);
+      } else {
+        nextQuestion();
+      }
+    }
+  
+    function nextQuestion() {
+      const form = document.getElementById('searchForm') || document.createElement('div');
+      form.id = 'searchForm';
+      form.innerHTML = `
+        <div id="question">${preguntas[currentQuestion].pregunta}</div>
+        <input type="text" id="answerInput" placeholder="Tu respuesta...">
+        <button class="submitBtn" onclick="validateAnswer()">Enviar</button>
+        <div id="errorMsg"></div>
+      `;
+      if (!document.getElementById('searchForm')) {
+        container.appendChild(form);
+      }
+    }
+  
+    function validateAnswer() {
+      const input = document.getElementById('answerInput').value.trim();
+      const errorMsg = document.getElementById('errorMsg');
+  
+      const expected = preguntas[currentQuestion].respuesta;
+  
+      let correct = false;
+      if (typeof expected === "function") {
+        correct = expected(input.toLowerCase());
+      } else {
+        correct = input === expected;
+      }
+  
+      if (correct) {
+        errorMsg.style.color = "#00ff00";
+        errorMsg.innerText = "✅ ¡Correcto!";
+        currentQuestion++;
+        if (currentQuestion < preguntas.length) {
+          setTimeout(() => {
+            nextQuestion();
+          }, 1000);
+        } else {
+          setTimeout(() => {
+            showFinalButton();
+          }, 1000);
+        }
+      } else {
+        errorMsg.style.color = "red";
+        errorMsg.innerText = "❌ Respuesta incorrecta, intenta de nuevo.";
+      }
+    }
+  
+    function showFinalButton() {
+      const form = document.getElementById('searchForm');
+      form.innerHTML = `
+        <a href="https://reoobot.github.io/TheServerSharkers/" class="button">Continuar misión</a>
+      `;
+    }
+  
+    window.onload = () => {
+      addLine();
+    };
+  </script>
+  
+
+</body>
+</html>

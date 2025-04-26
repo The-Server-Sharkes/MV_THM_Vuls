@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Intro Estilo N64 Mejorado</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: black;
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+      font-family: 'Press Start 2P', cursive;
+      position: relative;
+    }
+
+    body {
+      background-image: url('server.webp');
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      transition: background 1s ease-in-out;
+    }
+
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 1;
+      display: none; /* <-- empieza oculto */
+    }
+
+    .flash {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: white;
+      opacity: 1;
+      animation: flash 1s ease-out forwards;
+      z-index: 2;
+    }
+
+    @keyframes flash {
+      0% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+
+    #pushStart {
+      color: #00ff00;
+      font-size: 24px;
+      margin-top: 20px;
+      opacity: 0;
+      transform: scale(0.5);
+      animation: aparecer 3s ease-out forwards, parpadeo 1s infinite alternate;
+      z-index: 3;
+      position: relative;
+      cursor: pointer;
+    }
+
+    @keyframes aparecer {
+      0% {
+        opacity: 0;
+        transform: scale(0.5);
+      }
+      50% {
+        opacity: 1;
+        transform: scale(1.1);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    @keyframes parpadeo {
+      0% { opacity: 1; }
+      100% { opacity: 0.5; }
+    }
+
+    #loading {
+      color: white;
+      font-size: 20px;
+      display: none;
+      margin-top: 20px;
+      z-index: 3;
+    }
+  </style>
+</head>
+
+<body>
+
+<canvas id="matrixCanvas"></canvas>
+
+<div class="flash"></div>
+<h1 id="pushStart">¡PUSH START!</h1>
+<div id="loading">Cargando...</div>
+
+<script>
+  const canvas = document.getElementById('matrixCanvas');
+  const ctx = canvas.getContext('2d');
+
+  canvas.height = window.innerHeight;
+  canvas.width = window.innerWidth;
+
+  const letras = "アカサタナハマヤラワ0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  const fontSize = 16;
+  let columnas = canvas.width / fontSize;
+  let gotas = [];
+
+  function iniciarGotas() {
+    columnas = canvas.width / fontSize;
+    gotas = [];
+    for(let x = 0; x < columnas; x++) {
+      gotas[x] = 1;
+    }
+  }
+
+  function drawMatrix() {
+    ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    ctx.fillStyle = "#0F0"; 
+    ctx.font = fontSize + "px monospace";
+
+    for(let i = 0; i < gotas.length; i++) {
+      const texto = letras.charAt(Math.floor(Math.random() * letras.length));
+      ctx.fillText(texto, i * fontSize, gotas[i] * fontSize);
+
+      if(gotas[i] * fontSize > canvas.height && Math.random() > 0.975) {
+        gotas[i] = 0;
+      }
+      gotas[i]++;
+    }
+  }
+
+  let animacionMatrix; // Guardamos el intervalo para controlarlo
+
+  const pushStart = document.getElementById('pushStart');
+  const loading = document.getElementById('loading');
+
+  pushStart.addEventListener('click', () => {
+    pushStart.style.display = 'none';
+    loading.style.display = 'block';
+
+    // Mostrar canvas y empezar animación Matrix
+    canvas.style.display = 'block';
+    iniciarGotas();
+    animacionMatrix = setInterval(drawMatrix, 50);
+
+    setTimeout(() => {
+      clearInterval(animacionMatrix); // Detiene la lluvia Matrix
+      window.location.href = "http://127.0.0.1:5500/informacionmision.html";
+    }, 12000);
+  });
+
+  window.addEventListener('resize', () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    iniciarGotas();
+  });
+</script>
+
+</body>
+</html>
