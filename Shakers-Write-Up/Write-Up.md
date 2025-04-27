@@ -1,7 +1,16 @@
 ### Shakers Write-Up ###
 ---
 
-### 1. ¿Qué comando de búsqueda en Google me permite encontrar más rápido sitios web específicos relacionados con una persona o una empresa? ###
+### 1. ¿Qué comando utilizarías para escanear los puertos asociados a los servicios SSH, SMTP y HTTP y verificar si están filtrados o cerrados? (Escribe solo el comando con los puertos, sin incluir la dirección IP). ###
+
+**✅ RESPUESTA:**  
+
+```bash
+nmap -p 22,25,80
+```
+
+---------------------------------------------------------------------------------------------------------------------------------------------
+### 2. ¿Qué comando de búsqueda en Google me permite encontrar más rápido sitios web específicos relacionados con una persona o una empresa? ###
 
 La respuesta es Google Dorking, un concepto que vimos en las primeras clases del curso.
 Sin esta técnica, encontrar la empresa o el objetivo que queremos investigar sería muy difícil o llevaría mucho más tiempo.
@@ -24,7 +33,7 @@ site:
 
 ---------------------------------------------------------------------------------------------------------------------------------------------
 
-### 2. ¿En qué página personal o red profesional podríamos encontrar más información detallada sobre "TheServerSharkers" o sus miembros? ###
+### 3. ¿En qué página personal o red profesional podríamos encontrar más información detallada sobre "TheServerSharkers" o sus miembros? ###
 
 Esta pregunta está relacionada con la anterior, ya que, sin utilizar el comando site:, sería muy difícil para un atacante encontrar información relevante sobre "TheServerSharkers".
 
@@ -48,7 +57,7 @@ podemos aplicar el filtro para centrarnos en los resultados de LinkedIn, donde e
 
 ---------------------------------------------------------------------------------------------------------------------------------------------
 
-### 3. ¿Qué URL puedes extraer de la pagina que encontraste? ###
+### 4. ¿Qué URL puedes extraer de la pagina que encontraste? ###
 
 En la página oficial de Server Shakers, se encuentra una sección denominada 'Destacados', que incluye una imagen representativa de una página. 
 
@@ -69,7 +78,7 @@ Al hacer click, encontramos la siguiente publicación del perfil de The Server S
 
 ---------------------------------------------------------------------------------------------------------------------------------------------
 
-### 4. Tras realizar una investigación exhaustiva, encuentras la página oficial de la empresa objetivo. Para continuar con tu ataque, necesitas conocer el Content-Length de la página. ¿Cuál es? ###
+### 5. Tras realizar una investigación exhaustiva, encuentras la página oficial de la empresa objetivo. Para continuar con tu ataque, necesitas conocer el Content-Length de la página. ¿Cuál es? ###
 
 Después de ir a la pagina a lque LinkedIn hace referencia, encontramos que tiene más informacion acerca de The Server Shakers, como el nombre de sus empleados, pero más importante
 el link de su pagina web en fase de desarrollo.
