@@ -1,3 +1,4 @@
+
 ### Shakers Write-Up ###
 ---
 
@@ -98,4 +99,25 @@ El resultado es el siguiente.
 **✅ RESPUESTA:**
 ```bash
  2952
+```
+
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+### 6. Los metadatos guardan secretos que no se ven a simple vista. Encuentra la imagen del traidor, la que guarda su huella invisible. Descubre la fecha de modificación.
+
+Primero que todo, tenemos que saber quien es el traidor. La persona con la que llegamos a la pagina web fue Manolo Gomez, quien publico la pagina en fase de desarrollo.
+Sabiendo esto, tenemos que volver a la pagina filtrada y buscar en el codigo fuente cuál es la foto de Manolo.
+
+<img width="1710" alt="Captura de pantalla 2025-04-27 a las 20 45 07" src="https://github.com/user-attachments/assets/7b4a7800-6104-417e-8115-41f0598b356d" />
+
+<img width="1710" alt="Captura de pantalla 2025-04-27 a las 20 45 23" src="https://github.com/user-attachments/assets/7bf490f3-13a1-487f-af3b-e1423371d022" />
+
+Después de encontrar las fotos, podemos descargar la foto con el comando curl, el cuál es el más util 
+
+El comando sería:
+curl 
+
+**✅ RESPUESTA:**
+```bash
+ 2025/04/27
 ```
