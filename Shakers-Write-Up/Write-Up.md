@@ -64,5 +64,29 @@ Al hacer click, encontramos la siguiente publicación del perfil de The Server S
 
 **✅ RESPUESTA:**
 ```bash
-  reoobot.github.io/TheServerSharkers/carrera https://reoobot.github.io/TheServerSharkers/
+  reoobot.github.io/TheServerSharkers/carrera
+```
+
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+### 4. Tras realizar una investigación exhaustiva, encuentras la página oficial de la empresa objetivo. Para continuar con tu ataque, necesitas conocer el Content-Length de la página. ¿Cuál es? ###
+
+Después de ir a la pagina a lque LinkedIn hace referencia, encontramos que tiene más informacion acerca de The Server Shakers, como el nombre de sus empleados, pero más importante
+el link de su pagina web en fase de desarrollo.
+
+<img width="1710" alt="Captura de pantalla 2025-04-27 a las 17 50 37" src="https://github.com/user-attachments/assets/f64094fb-be8f-47cd-bfb4-31c200278246" />
+
+Una vez hacemos click, encontramos la fagina oficial de la empresa. El enunciado nos pide que busquemos el content lengthd de la paina para hacer un ataque. La manera más sencilla de hacerlo es descargar la pagina con el uso de comandos curl, eso si no esta protegida, el cual no es el caso, por lo que hacemos eso. 
+
+El resultado es el siguiente.
+
+| **Resultado** | **Imagen** |
+|---------------|------------|
+| **Sitio Web** | <img width="1710" alt="Captura de pantalla 2025-04-27 a las 17 56 08" src="https://github.com/user-attachments/assets/97a1ac42-47f4-42d9-99bd-755edd369e7d" /> |
+| **Información extraida 1** | <img width="916" alt="Captura de pantalla 2025-04-27 a las 18 01 04" src="https://github.com/user-attachments/assets/29b79077-95d6-4fe7-b303-2451e0d8f1d6" />|
+| **Información extraida 2** | <img width="1710" alt="Captura de pantalla 2025-04-27 a las 18 03 14" src="https://github.com/user-attachments/assets/a9c8ea27-f59a-4200-bda4-4071478c2af0" /> |
+
+**✅ RESPUESTA:**
+```bash
+ 2952
 ```
