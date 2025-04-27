@@ -112,10 +112,30 @@ Sabiendo esto, tenemos que volver a la pagina filtrada y buscar en el codigo fue
 
 <img width="1710" alt="Captura de pantalla 2025-04-27 a las 20 45 23" src="https://github.com/user-attachments/assets/7bf490f3-13a1-487f-af3b-e1423371d022" />
 
-Después de encontrar las fotos, podemos descargar la foto con el comando curl, el cuál es el más util 
+Después de encontrar las fotos, podemos descargar la foto con el comando curl, el cuál es el más útil. 
 
-El comando sería:
-curl 
+📚 ¿Para qué sirve el culr?
+
+curl es una herramienta de línea de comandos utilizada para transferir datos desde o hacia un servidor. Su nombre proviene de "Client URL", ya que es comúnmente utilizada para realizar solicitudes de red a URLs. Es una herramienta muy poderosa y flexible que permite trabajar con distintos protocolos, como HTTP, HTTPS, FTP, entre otros.
+
+Pero para descargar la foto, tenemos especificar la ubicación de la foto, que es un directorio dentro de la pagina. La ubicación se pondria despues de la ubicación URL.
+
+El comando es:
+
+curl -v https://reoobot.github.io/TheServerSharkers/manolo1.webp
+
+Una vez descargada, el atacante analizario los comandos con exiftool.
+
+Exiftool
+
+Es una poderosa herramienta de línea de comandos utilizada para leer, escribir y editar metadatos en archivos de imagen, audio y vídeo. Los metadatos son datos adicionales sobre el archivo, como la información de la cámara que se usó para tomar una foto, la fecha y hora en que se tomó, la ubicación (si se ha registrado), los parámetros de exposición, entre otros.
+
+Comando:
+
+exiftool manolo1.webp
+
+<img width="1710" alt="Captura de pantalla 2025-04-27 a las 21 07 42" src="https://github.com/user-attachments/assets/09a567c1-a9cb-4875-a3f9-3396e727484e" />
+
 
 **✅ RESPUESTA:**
 ```bash
