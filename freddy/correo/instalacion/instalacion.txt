@@ -47,3 +47,9 @@ sendEmail -f prueba@kali.com -t vagrant@ubuntu.local -u "Hola" -m "Probando para
 
 
 cat ~/procmail.log
+
+
+ojo 
+ echo "server-sharkers.local" | sudo tee /etc/mailname
+
+ server-sharkers

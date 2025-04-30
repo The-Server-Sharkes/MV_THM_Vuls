@@ -24,3 +24,4 @@ sudo systemctl reload apache2
 
 /etc/hosts
 192.168.0.31  ab.theserversharkers.io
+
