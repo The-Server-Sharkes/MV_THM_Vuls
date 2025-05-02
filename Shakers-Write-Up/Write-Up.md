@@ -2,6 +2,64 @@
 ### Shakers Write-Up ###
 ---
 
+### Task 1
+
+### 1.1. "Si los puertos están cerrados y las puertas bloqueadas, ¿qué haría alguien como Kevin Mitnick, quien sabía que el verdadero acceso está donde nadie mira? ¿Y si el silencio de un host fuera solo una máscara... sabrías cómo hacer que hable?"
+
+**"Si los puertos están cerrados y las puertas bloqueadas"**
+
+Esto indica que el sistema está protegido con medidas tradicionales:
+
+  * Cortafuegos que cierran puertos.
+
+  * No hay servicios visibles.
+
+  * Se ha aplicado una política de "superficie de ataque mínima".
+
+**¿Qué haría alguien como Kevin Mitnick?"**
+Mitnick fue famoso por:
+
+  *El ingeniería social, evasión de medidas de seguridad y técnicas poco ortodoxas.
+
+  * Encontrar caminos que los defensores no habían considerado.
+
+  * Usar métodos indirectos o pasivos para obtener acceso o información.
+
+  * Esto sugiere que el atacante no atacará de frente, sino que buscará caminos menos evidentes.
+
+**"El verdadero acceso está donde nadie mira"**
+
+Este es el corazón de la frase.
+
+Puede referirse a métodos que no se detectan fácilmente.
+
+Aquí hablamos de análisis pasivo, escaneo desde otros hosts, análisis de tráfico, suplantación de identidad, etc.
+
+También puede aludir a hosts intermedios, sistemas mal monitoreados, redes internas, etc.
+
+**"¿Y si el silencio de un host fuera solo una máscara...?"**
+
+Muchos hosts protegidos están configurados para no responder a paquetes sospechosos o desconocidos.
+
+Esto podría hacer que parezcan apagados o inactivos cuando en realidad están activos.
+
+**Conclusión:**
+La frase es una forma creativa de describir cómo un atacante avanzado como Kevin Mitnick no depende de los métodos comunes (escaneos agresivos, 
+puertos abiertos) sino que aprovecha el comportamiento del sistema, incluso cuando "parece" cerrado.
+
+La técnica implícita puede ser:
+
+✅ Escaneo encubierto como el Idle Scan
+✅ Fingerprinting pasivo
+✅ Timing-based reconnaissance
+✅ Evasión mediante caminos no obvios (como hosts intermedios o técnicas de ingeniería social técnica)
+
+**✅ RESPUESTA:**  
+
+```bash
+filtered
+```
+---------------------------------------------------------------------------------------------------------------------------------------------
 ### Task 2
 
 ### 2.1. ¿Qué comando de búsqueda en Google me permite encontrar más rápidos sitios web específicos relacionados con la empresa The Server Sharkers?
@@ -233,11 +291,11 @@ Y lo que había detrás ahora es accesible → tal vez una shell, una bandera o 
 
 Esto indica que:
 
-El recurso desbloqueado tras la secuencia contiene una clave,
+  * El recurso desbloqueado tras la secuencia contiene una clave,
 
-Esta clave tiene un formato específico: xxxx xxxx xxxx (tres palabras, cada una de cuatro letras).
+  * Esta clave tiene un formato específico: xxxx xxxx xxxx (tres palabras, cada una de cuatro letras).
 
-Este tipo de formato es común en retos CTF para representar flags o contraseñas.
+  * Este tipo de formato es común en retos CTF para representar flags o contraseñas.
 
 **✅ RESPUESTA:**
 ```bash
@@ -252,77 +310,239 @@ Este tipo de formato es común en retos CTF para representar flags o contraseña
 
 “Había una vez un tiburón llamado Server, perdido en el vasto océano de IPs.”
 
-**Interpretación:**
+**🔍 Interpretación:**
 
-Esto representa un nombre de dominio (en este caso, theserversharkers.io) que no está resolviendo correctamente por DNS (es decir, no puede ser encontrado en el “océano de IPs”).
+Esto representa un nombre de dominio (como theserversharkers.io) que no puede resolverse por DNS. Es decir, está “perdido” en el océano de direcciones IP porque no hay un registro DNS público que lo asocie a una IP.
 
-“Un sabio navegante escribió su nombre en el mapa secreto /etc/hosts...”
+**📘 “Un sabio navegante escribió su nombre en el mapa secreto /etc/hosts...”**
 
-Esto es una referencia directa al archivo /etc/hosts, un archivo de texto local donde se puede asociar manualmente un nombre de dominio a una dirección IP.
-Es un recurso común para:
+Esta es una referencia directa al archivo local /etc/hosts, que permite asociar manualmente un nombre de dominio con una dirección IP sin pasar por DNS.
 
-Simular la existencia de un dominio.
+**🧠 “...y así, cada vez que alguien llamaba a ' ', encontraba su guarida oculta entre las olas.”**
 
-Redirigir tráfico localmente sin depender de DNS.
+Una vez que haces esta asociación localmente, cuando intentes acceder a theserversharkers.io, tu sistema sabrá exactamente a qué IP debe conectar. Es decir, encuentra su “guarida” (la IP) bajo las olas (sin necesidad de DNS).
 
-“...y así, cada vez que alguien llamaba a ' ', encontraba su guarida oculta entre las olas.”
+**🛠️ ¿Qué hacer con esta pista?**
+Sabemos que:
 
-Cuando alguien accede al dominio (theserversharkers.io), si está mapeado en /etc/hosts, el sistema resolverá correctamente el nombre y sabrá a qué IP conectarse.
-→ Es decir, lo encontrará en su “guarida” (IP definida manualmente).
+  * Se te proporciona una IP pública por TryHackMe (por ejemplo, 10.10.123.45).
 
-**¿Cómo actúas con esta pista?**
+  * El nombre de dominio theserversharkers.io aparece en la pista, pero no responde en DNS, por lo tanto no es resoluble por defecto.
 
-Sabiendo que:
+  * Al intentar acceder al sitio desde Kali, ves que no carga (error de DNS).
 
-El dominio theserversharkers.io no resuelve por DNS,
+  * Sabes que en entornos CTF o pentesting, cuando un dominio no resuelve pero es necesario para el reto, la solución es editar /etc/hosts.
 
-Pero debe poder usarse localmente (por ejemplo, en un navegador o curl),
+  * Al hacerlo, apuntas el dominio a la IP que te proporciona TryHackMe.
 
-→ La acción lógica es modificar /etc/hosts para hacer esa resolución manualmente.
+**Acción concreta: añadir entrada en /etc/hosts**
 
-sudo → se necesita permiso de superusuario para modificar este archivo.
+Abre el archivo /etc/hosts con permisos de superusuario:
 
-nano → es un editor de texto común.
+```bash
+ sudo nano /etc/hosts
+```
 
-/etc/hosts → el archivo objetivo.
+Agrega la siguiente línea (ajustando la IP si es diferente):
 
-Allí podrías agregar, por ejemplo:
+```bash
+ IP_MAQUINA theserversharkers.io
+```
 
-127.0.0.1 theserversharkers.io
-o la IP real que deba asociarse al dominio.
+**¿En qué máquinas debes hacerlo?**
+
+| Máquina              | ¿Editar `/etc/hosts`?   | ¿Por qué? |
+|----------------------|--------------------------|-----------|
+| 🐱 Kali (cliente)     | ✅ Sí, obligatorio        | Para que puedas acceder a `http://theserversharkers.io` desde tu navegador o con herramientas como `curl` o `nmap`, ya que el dominio no existe en los DNS públicos. Kali necesita saber que `theserversharkers.io` apunta a la IP de la máquina de TryHackMe. |
+| 🐳 TryHackMe (servidor) | ✅ Sí, si el servidor lo requiere | Si el servidor web, aplicación o script que corre en esa máquina verifica el nombre de dominio solicitado o hace redirecciones basadas en el nombre del host, entonces también necesita poder resolver `theserversharkers.io` localmente. |
+
+**Maquina Virtual Kali**
+<img width="1644" alt="Captura de pantalla 2025-05-02 a las 19 51 57" src="https://github.com/user-attachments/assets/dcd09743-887d-4e5f-ae51-5ec1f9a44c55" />
+
+
+**Maquina Virtual THM**
+<img width="1710" alt="Captura de pantalla 2025-05-02 a las 19 50 20" src="https://github.com/user-attachments/assets/a3ed7ac4-1069-49e3-9f13-ac2ecc79cb49" />
+
+Porque en el /etc/hosts es donde se escribe el “mapa secreto” que permite al dominio sin DNS ser encontrado y accedido correctamente, esa es la respuesta.
 
 **✅ RESPUESTA:**
 ```bash
  sudo nano /etc/hosts
 ```
 -------------
-
 ### 2.9. "Como Homero buscando donas en callejones secretos de Springfield, recorrí los rincones ocultos de The Server Sharkers, golpeando cada puerta .php, .html, .txt y .mp4, esperando encontrar un dulce premio digital." ###
 
+**🧠 Interpretación**
 
+🔍 ¿Qué nos sugiere esta metáfora?
+"Homero" → representa al usuario curioso o hacker ético que explora sin parar.
+
+"Callejones secretos" → rutas ocultas en un sitio web.
+
+"Golpeando cada puerta .php, .html, .txt y .mp4" → es una clara alusión a un escaneo de directorios y archivos, buscando recursos no públicos o mal protegidos.
+
+"Esperando encontrar un dulce premio digital" → busca información confidencial o una bandera (flag) en un CTF.
+
+🧰 2. Relación con técnicas de pentesting
+Todo lo anterior describe una práctica común: el fuzzing de rutas o archivos en un servidor web.
+
+Esto consiste en:
+
+  * Probar muchas rutas (como /admin, /login, /backup.zip) para descubrir recursos no visibles en la página principal.
+
+  * Hacerlo de forma automatizada usando herramientas como Gobuster, FFUF, Dirb, etc.
+
+  * Usar un diccionario de palabras (wordlist) que simula “golpear puertas” con diferentes nombres de archivos o carpetas.
+
+🛠️ 3. ¿Por qué Gobuster?
+Es una herramienta ligera, rápida y ampliamente usada para descubrir directorios o archivos ocultos.
+
+Soporta múltiples modos (como dir, dns, vhost), pero en este caso nos interesa dir, para buscar rutas/archivos en un sitio web.
+
+Se integra bien con listas de palabras como la clásica common.txt de DirB, disponible en Kali Linux.
+
+🔍 4. Construcción lógica del comando
+
+Basado en la interpretación anterior, el comando se arma así:
+```bash
+  gobuster dir -u http://theserversharkers.io/ -w /usr/share/wordlists/dirb/common.txt -t 30
+```
+
+🧾 Explicación del comando:
+
+dir: indica que se trata de un escaneo de directorios.
+
+-u http://theserversharkers.io/: es la URL del objetivo.
+
+-w /usr/share/wordlists/dirb/common.txt: wordlist que contiene nombres comunes de archivos y carpetas para probar.
+
+-t 30: define el número de hilos (threads) para acelerar la búsqueda (30 es un valor razonable sin saturar).
+
+Sabemos que el comando funciona y que las dos maquinas tiene el servidor de theservershakers activos porque el gobuster devuelve esto:
+
+<img width="1710" alt="Captura de pantalla 2025-05-02 a las 12 37 39" src="https://github.com/user-attachments/assets/ae38dbb7-834d-4fd4-85c0-46f89011aca4" />
+
+
+**Conclusión lógica (respuesta deducida):**
+El acertijo describe de manera creativa un escaneo de rutas ocultas, y todas las pistas apuntan a la necesidad de:
+
+  * Usar una herramienta de fuzzing de rutas
+  * Buscar archivos con extensiones comunes
+  * Aplicarlo sobre theserversharkers.io
+
+Por lo tanto, la respuesta correcta y razonada es:
+**✅ RESPUESTA:**
+```bash
+ gobuster dir -u
+```
 
 -------------
 ### 2.10. "Al final del puerto 80, entre el eco de las respuestas, ¿será este el momento donde un diccionario abre la puerta oculta, o acaso la clave yace en algo más profundo, más oscuro, más encriptado? La verdad se encuentra entre los bits, ¿te atreves a seguir?" ###
 
+"La verdad se encuentra entre los bits, ¿te atreves a seguir?"
 
+...y después te dan directamente el enlace http://theserversharkers.io, la respuesta es simplemente esa URL. No hace falta complicarlo con herramientas como curl, porque:
 
+Ya configuraste /etc/hosts para que theserversharkers.io apunte a la IP correcta.
+
+Ya entendiste que el puerto 80 es el principal.
+
+Y ahora el reto es seguir navegando por esa URL en el navegador o con herramientas posteriores.
+
+**✅ RESPUESTA:**
+```bash
+  http://theserversharkers.io
+```
 -------------
 ### 2.11. "En el mundo del hacking, como en las películas de los 90, ¿puede un diccionario de 98 palabras desbloquear el puerto 80, o es solo una ilusión en la red?" ###
 
+Ahora, con todos los otros pasos hechos, tenemos que desplear la pagina de TheServrShakers.
 
+<img width="1710" alt="Captura de pantalla 2025-05-02 a las 12 44 50" src="https://github.com/user-attachments/assets/0c3ab85e-c2f1-4e0d-8b1b-68cc9ccbb4ba" />
+
+Hacemos click y nos debería cargar la pagina con el siguiente mensaje. 
+Las paginas y sus mensajes pueden tardar en cargas, así que dale tiempo.
+
+<img width="1677" alt="Captura de pantalla 2025-05-02 a las 20 52 03" src="https://github.com/user-attachments/assets/f6b6a25e-3b25-4a6a-8683-63c1254d1187" />
+
+<img width="1710" alt="Captura de pantalla 2025-05-02 a las 20 55 21" src="https://github.com/user-attachments/assets/2f53d2b0-2cd4-45a5-9ac9-45bed0eb2ecd" />
+
+Las respuestas que nos piden a continuación tien que ver con las respuestas del task 2, 
+así que no puedes entrar en está area hasta que las hayas resuleto cada una de ellas.
+
+<img width="1708" alt="Captura de pantalla 2025-05-02 a las 20 58 31" src="https://github.com/user-attachments/assets/03a0a480-3832-499b-a669-34dbd34369b3" />
+
+<img width="1704" alt="Captura de pantalla 2025-05-02 a las 20 59 09" src="https://github.com/user-attachments/assets/3537d919-f8a4-4e07-8cfb-63fada515c31" />
+
+<img width="1710" alt="Captura de pantalla 2025-05-02 a las 21 02 28" src="https://github.com/user-attachments/assets/c8092a8a-f590-41a1-980f-2c6076e958f0" />
+
+<img width="1710" alt="Captura de pantalla 2025-05-02 a las 21 03 54" src="https://github.com/user-attachments/assets/ebc041e9-516b-4910-9038-bafd56d772b3" />
+
+**✅ RESPUESTA:**
+```bash
+  sendEmail -f "name-remitente@kali.com" -t sharkers@localhost -u "ReverseShell" -m "Aun te estamos esperando no han cerrado las apuestas" -s "IP-Victima" -o tls=no -a
+```
+
+<img width="1710" alt="Captura de pantalla 2025-05-02 a las 21 05 47" src="https://github.com/user-attachments/assets/d2d1fd14-253a-4265-9892-2aba7f0b67f9" />
+
+**✅ RESPUESTA:**
+```bash
+ sendEmail -f prueba@kali.com -t sharkers@localhost -u "EnviarAdjunto" -m "Este es tu premio no te lo pierdas, apuesta ya, PREMIO DE 1000000" -s "IP_Victima" -o tls=no -a /home/vagrant/Documents/reverse_shell.sh
+```
+<img width="1705" alt="Captura de pantalla 2025-05-02 a las 21 06 57" src="https://github.com/user-attachments/assets/9d1caad2-686f-4ce8-acbb-eeaf8243448e" />
+
+La respuesta es obviamente Barcelona, pero con b minuscula.
+
+Despues de resolver todas las preguntas, te aparece esta siguiente pagina web, y damos un click. 
+
+<img width="1708" alt="Captura de pantalla 2025-05-02 a las 21 31 51" src="https://github.com/user-attachments/assets/99ef374a-0947-46ed-a098-702bd36d6277" />
+
+<img width="1710" alt="Captura de pantalla 2025-05-02 a las 13 02 36" src="https://github.com/user-attachments/assets/2c984661-52a1-4789-ac7f-47e3941fd02c" />
+
+<img width="1710" alt="Captura de pantalla 2025-05-02 a las 13 03 06" src="https://github.com/user-attachments/assets/07b883ce-fd72-422e-ad5b-ac9fc7812de9" />
+
+Dejamos que se lo suficiente para que nos muestre la contraseña del archivo confidencial 
+y esta es la respuesta.
+
+Como consejo, te recomiendo esperar a que la pagina termine de cargar porque despues comienza a lanzar palabras que necesitaras guardar en un archivo para el siguiente ejercicio:
+
+<img width="1710" alt="Captura de pantalla 2025-05-02 a las 13 06 31" src="https://github.com/user-attachments/assets/71710658-9a25-4171-9d99-62d66b381990" />
+
+
+**✅ RESPUESTA:**
+```bash
+  oxfbyhjdv123
+```
 
 -------------
 ### 2.12. ¿qué secretos ocultos pueden desvelarse al descubrir subdominios o virtual hosts en el servidor? ¿Qué conexiones inesperadas de puertos o configuraciones de DNS podrían hallarse bajo la superficie?" ###
 
+**🔍 Interpretación:**
+Este mensaje nos habla de una capa más profunda de enumeración en entornos web: la existencia de virtual hosts o subdominios configurados en el servidor que no están visibles a simple vista. Veamos qué puede significar esto:
 
+  * Virtual Hosts: En un mismo servidor (misma IP), pueden existir múltiples sitios web diferenciados únicamente por el nombre del dominio. Por ejemplo, admin.theserversharkers.io podría apuntar al mismo servidor que theserversharkers.io, pero mostrar contenido completamente distinto.
+Estos sitios no se detectan con un simple navegador si no conoces el nombre exacto.
 
+  * Subdominios ocultos: Podrían existir configuraciones activas que solo responden si se solicita el sitio con el subdominio correcto. Esto se usa muchas veces para ocultar paneles de administración, entornos de staging, APIs, etc.
+
+  * DNS alternativos: Es posible que el servidor tenga respuestas diferentes dependiendo del Host que se envía en la cabecera HTTP, lo que se configura en Apache/Nginx usando ServerName o ServerAlias.
+
+💻 Comando clave:
+Si guardaste las palabras en un archivo, en este caso está en Downloads/document y aplicaste el gobuster
+con los comandos correctos deberias tener algo así: 
+
+```bash
+  gobuster vhost -u http://10.10.150.87 --domain theserversharkers.io -w ~/Downloads/document.txt --append-domain
+```
+
+<img width="1710" alt="Captura de pantalla 2025-05-02 a las 13 10 10" src="https://github.com/user-attachments/assets/6ba33680-5c80-48ae-a399-2d4d481478d1" />
+
+**✅ RESPUESTA:**
+```bash
+  gobuster vhost -u http://10.10.150.87
+```
 -------------
 ### 2.13. ¿Cuál es el usuario de The Server Sharkers que tiene cuatro letras? ###
-
-
-
--------------
-### 2.14. ¿Cuál es el usuario de The Server Sharkers que tiene cuatro letras? ###
 
 
 
@@ -331,6 +551,7 @@ o la IP real que deba asociarse al dominio.
 ### TAKS 3
 ### 3.1. "Si lograste acceder a un sistema a través de SSH, ¿cómo sabrías qué usuario está detrás de la puerta cerrada? A veces, el whoami o un simple ps aux pueden revelar más de lo que imaginas." ###
 
+Ahora que tenemos la pagina que 
 
 
 -------------
@@ -339,9 +560,39 @@ o la IP real que deba asociarse al dominio.
 
 -------------
 TASK 4
-### 4.1."Tres knock^3, secretos: 1234, 2345, 3456. La vieja puerta filtrada crujió... ¿qué misterios aguardaban tras ella? ###
+### 4.1. Los servicios que parecen comunes pueden ser la clave para acceder a algo más profundo. Revisa los servicios en ejecución, los scripts vulnerables y la forma en que los puertos pueden estar interconectados. Si no encuentras lo obvio, ¿has considerado los servicios no expuestos o mal configurados? ###
 
 
+
+
+-------------
+TASK 4
+### 4.2. A veces lo que parece cerrado, está solo esperando a ser descubierto. ¿Cuántos puertos realmente están abiertos, listos para ser explorados? Quizá no todos son tan evidentes... ¿Lo has comprobado? ###
+
+Con base en la respuesta anterior, podemos deducir cuantos puertos estan abiertos usando la vulnerabilidades encontradas.
+
+<img width="865" alt="Captura de pantalla 2025-05-02 a las 11 46 26" src="https://github.com/user-attachments/assets/f5f4e788-3d73-4675-8e4f-44b52a9c2a7e" />
+
+<img width="865" alt="Captura de pantalla 2025-05-02 a las 11 46 26" src="https://github.com/user-attachments/assets/a206024a-bb03-471b-a86b-094a0bcc677b" />
+
+**✅ RESPUESTA:**
+```bash
+ 3
+```
+-------------
+### 4.3. ¿Cuál es el nombre de la vulnerabilidad que permite a un atacante interceptar y manipular conexiones cifradas de forma antigua, aprovechando una debilidad en un protocolo de cifrado obsoleto? ###
+
+Para encontrar esta vulnerabilidad, tenemos que consultar el informe de vulnerabilidades hecho por nmap, y ahi encontraremos la respuesta.
+
+<img width="1624" alt="Captura de pantalla 2025-05-02 a las 11 53 04" src="https://github.com/user-attachments/assets/9e68dbce-69dc-4cf4-b2b9-84017dab4547" />
+
+Sabemos que esta es la vulnerabilidad preguntada porque concuerda con la descripción del enunciado.
+
+**✅ RESPUESTA:**
+```bash
+ POODLE
+```
+-------------
 ### 2.3. ¿En qué página personal o red profesional podríamos encontrar más información detallada sobre "TheServerSharkers" o sus miembros? ###
 
 Esta pregunta está relacionada con la anterior, ya que, sin utilizar el comando site:, sería muy difícil para un atacante encontrar información relevante sobre "TheServerSharkers".
@@ -410,7 +661,6 @@ El resultado es el siguiente.
 ```
 
 ---------------------------------------------------------------------------------------------------------------------------------------------
-
 ### 6. Los metadatos guardan secretos que no se ven a simple vista. Encuentra la imagen del traidor, la que guarda su huella invisible. Descubre la fecha de modificación.
 
 Primero que todo, tenemos que saber quien es el traidor. La persona con la que llegamos a la pagina web fue Manolo Gomez, quien publico la pagina en fase de desarrollo.
