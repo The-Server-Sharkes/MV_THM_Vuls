@@ -904,3 +904,89 @@ Esto confirma que el archivo fue descargado correctamente a través del puerto 9
 ```bash
  THM{FACIL_PERO_ NO_ ES_}
 ```
+
+-------------
+### 5.6. "La terminal parpadea. El acceso fue concedido. Has atravesado cada puerta, burlado cada trampa. Ahora, frente a ti, el archivo: los planos estaban ahí todo el tiempo, esperando a quien supiera preguntar... cat flag.txt y despierta de la simulación". Una palabra quedó al final del archivo: 'CIPHER98'. ¿Estás listo para descender otro nivel en la madriguera?"###
+
+Has encontrado un archivo que contiene un hash de una contraseña, quizás algo como esto:
+
+```bash
+$6$randomsalt$K9rHf4vVhDfQ6QXpUMeZVGQwQrVb/uwzZ0...
+```
+
+Y al final del archivo que accediste, aparece la palabra clave: CIPHER98.
+
+**💡 Objetivo:**
+
+Romper el hash y encontrar la contraseña original.
+
+Para eso usas John the Ripper, una herramienta de fuerza bruta / diccionario muy usada en pentesting y CTFs.
+
+📜 Comando:
+```bash
+john --wordlist=/ruta/a/tu/diccionario.txt archivo.hash
+```
+
+**🧠 Paso a paso y razonamiento:**
+
+🔹 1. john
+
+Llamas a John the Ripper, el programa principal.
+
+Este programa compara hashes con palabras reales (o generadas) para intentar encontrar cuál produce el mismo resultado. Usa diferentes modos: ataque por diccionario, por fuerza bruta, reglas personalizadas, etc.
+
+🔹 2. --wordlist=/ruta/a/tu/diccionario.txt
+
+Le estás diciendo a John: “usa este archivo de palabras como posibles contraseñas”.
+
+Ese archivo puede ser, por ejemplo:
+
+rockyou.txt (diccionario muy común)
+
+Un diccionario que tú creaste
+
+Una pista basada en la palabra CIPHER98, que tal vez es parte de una contraseña
+
+**💡 Razonamiento:**
+Si ya tienes una pista, puedes construir un diccionario personalizado con combinaciones como:
+
+cipher98
+
+CIPHER98
+
+Cipher_98
+
+98cipher
+
+...
+
+Eso reduce mucho el tiempo de ataque comparado con intentar millones de claves aleatorias.
+
+🔹 3. archivo.hash
+
+Es el archivo que contiene el hash que quieres romper.
+
+Este archivo podría tener una sola línea como:
+
+```bash
+cipher:$6$randomsalt$K9rHf4vVhDfQ6QXpUMeZVGQ...
+```
+
+John detecta el tipo de hash automáticamente (por ejemplo: SHA-512, bcrypt, MD5, etc.).
+
+🔹 4. ¿Qué pasa después?
+
+John empieza a comparar cada palabra del diccionario con el hash.
+
+Si encuentra una coincidencia, te la muestra.
+
+Puedes verla con:
+
+```bash
+john --show archivo.hash
+```
+
+✅ Resultado esperado:
+```bash
+THM-{544855dcsknfsdf87f}
+```
