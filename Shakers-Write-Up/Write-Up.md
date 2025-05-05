@@ -863,3 +863,44 @@ Clave del acertijo	Significado técnico
  hydra 
 ```
 -------------
+### 5.5. "Pero algo no encaja... los planos hablan de una segunda cámara, más profunda, protegida no por muros, sino por mentes. Las rutas están cifradas, las llaves... escondidas entre los registros. Una palabra quedó al final del archivo: 'CIPHER98'. ¿Estás listo para descender otro nivel en la madriguera?"###
+
+Acceso inicial vía SSH
+**Paso 1: Conexión SSH al servidor**
+```bash
+ssh paco@IP_MAQUINA_THM
+```
+Se utilizó el usuario paco para conectarse a la IP 10.10.32.157.
+
+Al establecer la conexión, el sistema muestra un banner con advertencias legales y el nombre del servidor: The Server Sharkers.
+
+Esto indica que has accedido correctamente a la máquina como el usuario paco.
+
+**Paso 2: Enumeración del sistema**
+Se identificó que había un archivo importante en el sistema ubicado en el directorio /home/director/ llamado:
+flag.txt.gpg (archivo cifrado con GPG).
+
+Desde el contexto de root (probablemente se haya escalado privilegios antes de este paso), se accedió a esa ruta.
+
+**Paso 3: Levantar servidor HTTP para transferencia de archivo**
+```bash
+python3 -m http.server 9000
+```
+
+Desde la cuenta root, se utilizó python3 para iniciar un servidor HTTP simple en el puerto 9000.
+
+Esto expone los archivos del directorio actual (/home/director) a través de HTTP, permitiendo descargarlos fácilmente desde otra máquina.
+
+**Paso 4: Descargar el archivo flag.txt.gpg**
+
+En la segunda imagen se puede ver que alguien accede desde la IP 10.23.78.166 y descarga el archivo usando HTTP:
+```bash
+"GET /flag.txt.gpg HTTP/1.1" 200
+```
+
+Esto confirma que el archivo fue descargado correctamente a través del puerto 9000.
+
+**✅ RESPUESTA:**
+```bash
+ THM{FACIL_PERO_ NO_ ES_}
+```
